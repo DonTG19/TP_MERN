@@ -1,7 +1,6 @@
 function UserList(){
     return (
         <section>
-            <h3>Liste des utilisateurs</h3>
             <div>
                 <UserCard image="images/logo.png">
                     <h4>Don TSIANGA Govane</h4>

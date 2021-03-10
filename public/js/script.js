@@ -135,7 +135,7 @@ function UserCard(props) {
 }
 
 function UserList() {
-    return React.createElement("section", null, React.createElement("h3", null, "Liste des utilisateurs"), React.createElement("div", null, React.createElement(UserCard, {
+    return React.createElement("section", null, React.createElement("div", null, React.createElement(UserCard, {
         image: "images/logo.png"
     }, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997")), React.createElement(UserCard, null, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997")), React.createElement(UserCard, null, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997")), React.createElement(UserCard, null, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997"))), React.createElement(Pagination, null));
 }
