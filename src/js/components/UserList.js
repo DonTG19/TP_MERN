@@ -3,7 +3,7 @@ function UserList(){
         <section>
             <h3>Liste des utilisateurs</h3>
             <div>
-                <UserCard>
+                <UserCard image="images/logo.png">
                     <h4>Don TSIANGA Govane</h4>
                     <h4>19 décembre 1997</h4>
                 </UserCard>

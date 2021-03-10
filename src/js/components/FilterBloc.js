@@ -5,9 +5,10 @@ function FilterBloc(props){
                 <h4>Rechercher</h4>
                 <TextBox id="username" placeholder="Nom d'utilisateur" />
             </div>
-            <GroupCheckBox title="Trier par">
-                <CheckBox id="male" label="male" />
-                <CheckBox id="female" label="female" />
+            <h4>Trier par</h4>
+            <GroupCheckBox title="Sexe">
+                <CheckBox id="male" label="Male" />
+                <CheckBox id="female" label="Female" />
             </GroupCheckBox>
             <GroupCheckBox title="Date de naissance">
                 <CheckBox id="petit" label="Plus petit" />

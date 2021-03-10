@@ -18,14 +18,14 @@ function FilterBloc(props) {
     return React.createElement("aside", null, React.createElement("div", null, React.createElement("h4", null, "Rechercher"), React.createElement(TextBox, {
         id: "username",
         placeholder: "Nom d'utilisateur"
-    })), React.createElement(GroupCheckBox, {
-        title: "Trier par"
+    })), React.createElement("h4", null, "Trier par"), React.createElement(GroupCheckBox, {
+        title: "Sexe"
     }, React.createElement(CheckBox, {
         id: "male",
-        label: "male"
+        label: "Male"
     }), React.createElement(CheckBox, {
         id: "female",
-        label: "female"
+        label: "Female"
     })), React.createElement(GroupCheckBox, {
         title: "Date de naissance"
     }, React.createElement(CheckBox, {
@@ -38,7 +38,9 @@ function FilterBloc(props) {
 }
 
 function GroupCheckBox(props) {
-    return React.createElement("div", null, React.createElement("h4", null, props.title), React.createElement("div", null, props.children));
+    return React.createElement("div", {
+        className: "group-check-div"
+    }, React.createElement("h4", null, props.title), React.createElement("div", null, props.children));
 }
 
 function Header() {
@@ -118,10 +120,14 @@ function TextBox(props) {
 function UserCard(props) {
     return React.createElement("div", {
         className: "user-card"
-    }, React.createElement("div", null, React.createElement("img", {
+    }, React.createElement("div", {
+        className: "image-bloc"
+    }, React.createElement("img", {
         src: props.image || "images/user.png",
         alt: "User profil photo"
-    })), React.createElement("div", null, props.children), React.createElement("div", null, React.createElement(IconButton, {
+    })), React.createElement("div", null, props.children), React.createElement("div", {
+        className: "icons"
+    }, React.createElement(IconButton, {
         icon: "images/edit.svg"
     }), React.createElement(IconButton, {
         icon: "images/delete.svg"
@@ -129,7 +135,9 @@ function UserCard(props) {
 }
 
 function UserList() {
-    return React.createElement("section", null, React.createElement("h3", null, "Liste des utilisateurs"), React.createElement("div", null, React.createElement(UserCard, null, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997")), React.createElement(UserCard, null, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997")), React.createElement(UserCard, null, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997")), React.createElement(UserCard, null, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997"))), React.createElement(Pagination, null));
+    return React.createElement("section", null, React.createElement("h3", null, "Liste des utilisateurs"), React.createElement("div", null, React.createElement(UserCard, {
+        image: "images/logo.png"
+    }, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997")), React.createElement(UserCard, null, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997")), React.createElement(UserCard, null, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997")), React.createElement(UserCard, null, React.createElement("h4", null, "Don TSIANGA Govane"), React.createElement("h4", null, "19 décembre 1997"))), React.createElement(Pagination, null));
 }
 
 ReactDOM.render(React.createElement(Main, null), document.querySelector("main"));

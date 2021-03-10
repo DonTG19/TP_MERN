@@ -1,4 +1,41 @@
+$margin-bottom: 10px;
+
 .user-card{
     width : 200px;
-    border: 1px solid red;
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 7px;
+    background-color: $secondary-color;
+    border-radius: 5px;
+    text-align: center;
+
+    > div{
+        margin-bottom: $margin-bottom;
+    }
+
+    h4{
+        font-family: 'Yanone Kaffeesatz', sans-serif;
+        color: $text-color;
+        font-size: 1.1em;
+    }
+
+    .image-bloc{
+        height: 100px;
+
+        img{
+            width: auto;
+        }
+    }
+
+    .icons{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 60px;
+        margin: auto;
+
+        div{
+            width: 24px;
+        }
+    }
 }
