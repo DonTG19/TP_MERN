@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap");
 body {
-  background-color: #FAFAFA; }
+  background-color: #FAFAFA;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
 
 img {
   width: 100%;
@@ -39,3 +43,17 @@ header {
 .user-card {
   width: 200px;
   border: 1px solid red; }
+
+aside {
+  min-width: 200px;
+  width: 250px;
+  margin: auto;
+  padding: 25px 10px 25px 10px;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.31);
+          box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.31);
+  border-radius: 7px;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  color: rgba(0, 0, 0, 0.8); }
+  aside h4 {
+    font-size: 1em;
+    color: rgba(0, 0, 0, 0.9); }

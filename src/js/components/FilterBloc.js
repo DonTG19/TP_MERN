@@ -3,7 +3,7 @@ function FilterBloc(props){
         <aside>
             <div>
                 <h4>Rechercher</h4>
-                <TextBox id="username" placeholder="Username" />
+                <TextBox id="username" placeholder="Nom d'utilisateur" />
             </div>
             <GroupCheckBox title="Trier par">
                 <CheckBox id="male" label="male" />

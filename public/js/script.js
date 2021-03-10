@@ -17,7 +17,7 @@ function CheckBox(props) {
 function FilterBloc(props) {
     return React.createElement("aside", null, React.createElement("div", null, React.createElement("h4", null, "Rechercher"), React.createElement(TextBox, {
         id: "username",
-        placeholder: "Username"
+        placeholder: "Nom d'utilisateur"
     })), React.createElement(GroupCheckBox, {
         title: "Trier par"
     }, React.createElement(CheckBox, {
@@ -108,6 +108,7 @@ function TextBox(props) {
         className: "form-label"
     }, props.label), React.createElement("input", {
         type: "text",
+        autoComplete: "off",
         className: "form-control",
         id: props.id,
         placeholder: props.placeholder
