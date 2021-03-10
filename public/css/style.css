@@ -111,3 +111,11 @@ section {
     -webkit-flex-wrap: wrap;
         -ms-flex-wrap: wrap;
             flex-wrap: wrap; }
+
+nav ul {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+  nav ul .page-link {
+    color: rgba(0, 0, 0, 0.8); }

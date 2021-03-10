@@ -95,6 +95,21 @@ function Pagination() {
         className: "page-item"
     }, React.createElement("a", {
         className: "page-link",
+        href: "#"
+    }, "1")), React.createElement("li", {
+        className: "page-item"
+    }, React.createElement("a", {
+        className: "page-link",
+        href: "#"
+    }, "2")), React.createElement("li", {
+        className: "page-item"
+    }, React.createElement("a", {
+        className: "page-link",
+        href: "#"
+    }, "3")), React.createElement("li", {
+        className: "page-item"
+    }, React.createElement("a", {
+        className: "page-link",
         href: "#",
         "aria-label": "Next"
     }, React.createElement("span", {
