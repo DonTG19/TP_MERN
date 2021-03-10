@@ -13,11 +13,13 @@ module.exports = function(grunt) {
         sass:{
             options: {
                 implementation: sass,
-                outputStyle: 'compressed', 
+                outputStyle: 'nested', 
                 sourceMap: false
             },
             build: {
-                files: {}
+                files: {
+                    'public/css/style.css': 'src/sass/style.scss'
+                }
             }
         },
         postcss: {
@@ -25,32 +27,52 @@ module.exports = function(grunt) {
               map: false,
               processors: [
                 require('pixrem')(),
-                require('autoprefixer')(),
-                require('cssnano')()
+                require('autoprefixer')()
               ]
             },
-            user: {}
+            user: {
+                src: 'public/css/style.css'
+            }
         },
 
         babel: {
             options: {
               sourceMap: false,
-              presets: ['@babel/preset-env']
+              presets: ['@babel/preset-env', '@babel/preset-react']
             },
             build: {
-              files: {}
+              files: {
+                'public/js/script.js': 'public/js/script.js'
+              }
             }
         },
         concat: {
             options: {
-                separator: ';'
+                separator: '\n;\n'
+            },
+            app: {
+                src: [
+                    'src/js/components/*',
+                    'src/js/index.js'
+                ],
+                dest: 'public/js/script.js'
             }
         },
-        uglify:{}
+        uglify:{
+            options: {
+                mangle: false,
+                compress: false,
+                beautify: true
+            },
+            app: {
+                src: 'public/js/script.js',
+                dest: 'public/js/script.js'
+            }
+        }
     });
 
-    grunt.registerTask('build_js', ['concat', 'babel', 'uglify']);
-    grunt.registerTask('build_css', ['sass', 'postcss']);
-    grunt.registerTask('build', ['build_css', 'build_js']);
+    grunt.registerTask('bjs', ['concat', 'babel', 'uglify']);
+    grunt.registerTask('bcss', ['sass', 'postcss']);
+    grunt.registerTask('build', ['bcss', 'bjs']);
 
 }
