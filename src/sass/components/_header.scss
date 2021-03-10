@@ -1,20 +1,31 @@
 $header-height: 60px;
+$margin: 10px;
 
 header{
 
     height: $header-height;
-    border: 2px solid red;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 50px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.31);
 
     div{
-        border: 2px solid black;
         max-height: $header-height - 10;
+        font-family: 'Yanone Kaffeesatz', sans-serif;
+        color: $text-color;
+        font-size: 1.6em;
+
+        span{
+            margin-right: $margin;
+            font-weight: bold;
+            color: $accent-color;
+        }
     }
 
     .image-bloc{
-        width: 20px;
+        width: 25px;
+        margin-left: $margin;
     }
 
 }

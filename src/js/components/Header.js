@@ -3,7 +3,7 @@ function Header(){
         <header>
             <div>
                 <span>TP MERN</span>
-                <span>produced by Don TSIANGA Govane</span>
+                produced by Don TSIANGA Govane
             </div>
             <div className="image-bloc">
                 <img src="images/logo.png" alt="Don TG logo"/>

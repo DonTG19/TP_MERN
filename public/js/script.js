@@ -42,7 +42,7 @@ function GroupCheckBox(props) {
 }
 
 function Header() {
-    return React.createElement("header", null, React.createElement("div", null, React.createElement("span", null, "TP MERN"), React.createElement("span", null, "produced by Don TSIANGA Govane")), React.createElement("div", {
+    return React.createElement("header", null, React.createElement("div", null, React.createElement("span", null, "TP MERN"), "produced by Don TSIANGA Govane"), React.createElement("div", {
         className: "image-bloc"
     }, React.createElement("img", {
         src: "images/logo.png",
