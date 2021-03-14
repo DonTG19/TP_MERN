@@ -95,7 +95,6 @@ aside {
     margin-top: 15px; }
 
 section {
-  border: 1px solid;
   width: 600px;
   min-width: 250px;
   padding: 5px;
@@ -119,3 +118,18 @@ nav ul {
           justify-content: center; }
   nav ul .page-link {
     color: rgba(0, 0, 0, 0.8); }
+
+#main {
+  border: 1px solid;
+  min-width: 250px;
+  max-width: 1000px;
+  width: 80%;
+  margin: auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }

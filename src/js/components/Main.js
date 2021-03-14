@@ -2,7 +2,7 @@ function Main(){
     return (
         <div>
             <Header />
-            <div>
+            <div id="main">
                 <FilterBloc />
                 <UserList />
             </div>

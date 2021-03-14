@@ -60,7 +60,9 @@ function IconButton(props) {
 }
 
 function Main() {
-    return React.createElement("div", null, React.createElement(Header, null), React.createElement("div", null, React.createElement(FilterBloc, null), React.createElement(UserList, null)));
+    return React.createElement("div", null, React.createElement(Header, null), React.createElement("div", {
+        id: "main"
+    }, React.createElement(FilterBloc, null), React.createElement(UserList, null)));
 }
 
 function Pagination() {

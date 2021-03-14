@@ -5,3 +5,13 @@
 @import "components/userList";
 @import "components/pagination";
 
+#main{
+    border: 1px solid;
+    min-width: 250px;
+    max-width: 1000px;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
