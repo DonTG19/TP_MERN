@@ -1,5 +1,14 @@
 "use strict";
 
+function Button(props) {
+    return React.createElement("div", {
+        className: "button"
+    }, React.createElement("button", {
+        "data-bs-toggle": "modal",
+        "data-bs-target": "#staticBackdrop"
+    }, props.text));
+}
+
 function CheckBox(props) {
     return React.createElement("div", {
         className: "form-check"
@@ -12,6 +21,16 @@ function CheckBox(props) {
         className: "form-check-label",
         htmlFor: props.id
     }, props.label));
+}
+
+function FileInput(props) {
+    return React.createElement("div", {
+        className: "mb-3"
+    }, React.createElement("input", {
+        className: "form-control",
+        type: "file",
+        id: "formFile"
+    }));
 }
 
 function FilterBloc(props) {
@@ -34,7 +53,9 @@ function FilterBloc(props) {
     }), React.createElement(CheckBox, {
         id: "grand",
         label: "Plus grand"
-    })));
+    })), React.createElement(Button, {
+        text: "Ajouter un utilisateur"
+    }));
 }
 
 function GroupCheckBox(props) {
@@ -62,7 +83,69 @@ function IconButton(props) {
 function Main() {
     return React.createElement("div", null, React.createElement(Header, null), React.createElement("div", {
         id: "main"
-    }, React.createElement(FilterBloc, null), React.createElement(UserList, null)));
+    }, React.createElement(FilterBloc, null), React.createElement(UserList, null), React.createElement(Modal, null)));
+}
+
+function Modal() {
+    return React.createElement("div", {
+        className: "modal fade",
+        id: "staticBackdrop",
+        "data-bs-backdrop": "static",
+        "data-bs-keyboard": "false",
+        tabIndex: "-1",
+        "aria-labelledby": "staticBackdropLabel",
+        "aria-hidden": "true"
+    }, React.createElement("div", {
+        className: "modal-dialog modal-dialog-centered"
+    }, React.createElement("div", {
+        className: "modal-content"
+    }, React.createElement("div", {
+        className: "modal-header"
+    }, React.createElement("h5", {
+        className: "modal-title",
+        id: "staticBackdropLabel"
+    }, "Ajouter un utilisateur"), React.createElement("button", {
+        type: "button",
+        className: "btn-close",
+        "data-bs-dismiss": "modal",
+        "aria-label": "Close"
+    })), React.createElement("div", {
+        className: "modal-body"
+    }, React.createElement(TextBox, {
+        id: "username",
+        placeholder: "Nom d'utilisateur"
+    }), React.createElement("div", null, React.createElement(RadioBox, {
+        id: "genre1",
+        name: "gender",
+        label: "Masculin"
+    }), React.createElement(RadioBox, {
+        id: "genre2",
+        name: "gender",
+        label: "Féminin"
+    })), React.createElement(TextBox, {
+        id: "dob",
+        placeholder: "Date de naissance"
+    }), React.createElement("div", null, React.createElement(RadioBox, {
+        id: "news1",
+        name: "news",
+        label: "Oui"
+    }), React.createElement(RadioBox, {
+        id: "news2",
+        name: "news",
+        label: "Non"
+    })), React.createElement(TextBox, {
+        id: "email",
+        placeholder: "Adresse électronique"
+    }), React.createElement(FileInput, null)), React.createElement("div", {
+        className: "modal-footer"
+    }, React.createElement("button", {
+        type: "button",
+        className: "btn btn-secondary",
+        "data-bs-dismiss": "modal"
+    }, "Annuler"), React.createElement("button", {
+        type: "button",
+        className: "btn btn-primary"
+    }, "Enregistrer")))));
 }
 
 function Pagination() {
@@ -117,6 +200,20 @@ function Pagination() {
     }, React.createElement("span", {
         "aria-hidden": "true"
     }, "»")))));
+}
+
+function RadioBox(props) {
+    return React.createElement("div", {
+        className: "form-check"
+    }, React.createElement("input", {
+        className: "form-check-input",
+        name: props.name,
+        type: "radio",
+        id: props.id
+    }), React.createElement("label", {
+        className: "form-check-label",
+        htmlFor: props.id
+    }, props.label));
 }
 
 function TextBox(props) {

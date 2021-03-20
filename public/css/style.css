@@ -119,6 +119,15 @@ nav ul {
   nav ul .page-link {
     color: rgba(0, 0, 0, 0.8); }
 
+.button {
+  margin-top: 15px; }
+  .button button {
+    background-color: #00B0FF;
+    border: none;
+    border-radius: 3px;
+    text-transform: uppercase;
+    color: white; }
+
 #main {
   border: 1px solid;
   min-width: 250px;

@@ -1,0 +1,11 @@
+.button{
+    margin-top: 15px;
+
+    button{
+        background-color: $accent-color;
+        border: none;
+        border-radius: 3px;
+        text-transform: uppercase;
+        color: white;
+    }
+}

@@ -14,6 +14,7 @@ function FilterBloc(props){
                 <CheckBox id="petit" label="Plus petit" />
                 <CheckBox id="grand" label="Plus grand" />
             </GroupCheckBox>
+            <Button text="Ajouter un utilisateur"/>
         </aside>
     );
 }

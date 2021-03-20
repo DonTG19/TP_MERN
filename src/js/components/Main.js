@@ -3,8 +3,9 @@ function Main(){
         <div>
             <Header />
             <div id="main">
-                <FilterBloc />
-                <UserList />
+                <FilterBloc/>
+                <UserList/>
+                <Modal/>
             </div>
         </div>
     );
