@@ -18,8 +18,9 @@ connection.once('open', () => {
 });
 
 const routes = require('./routes.js');
+app.get('*', routes);
+app.post('*', routes);
 app.use(express.static('public'));  //CCM
-app.use('*', routes);
 
 app.listen(port, () => {
     console.log(`Le serveur écoute sur le port numéro: ${port}`);

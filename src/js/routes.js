@@ -25,7 +25,7 @@ router.route('/users').post((req, res) => {
   });
 
   newUser.save()
-    .then(() => res.json('User added!'))
+    .then(() => res.json('Utilisateur ajouté avec success!'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 

@@ -53,6 +53,7 @@ module.exports = function(grunt) {
             app: {
                 src: [
                     'src/js/components/*',
+                    'src/js/functions.js',
                     'src/js/index.js'
                 ],
                 dest: 'public/js/script.js'
