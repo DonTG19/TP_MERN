@@ -1,12 +1,7 @@
 const router = require('express').Router();
 let User = require('./model.js');
 
-router.route('/users').get((req, res) => {
-  User.find().select('username gender photo')
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
+//CREATE
 router.route('/users').post((req, res) => {
   const username = req.body.username;
   const gender = req.body.gender;
@@ -28,5 +23,20 @@ router.route('/users').post((req, res) => {
     .then(() => res.json({message: 'Utilisateur ajouté avec success!', id: newUser._id}))
     .catch(err => res.status(400).json('Error: ' + err));
 });
+
+//READ
+router.route('/users').get((req, res) => {
+  User.find().select('username gender photo')
+    .then(users => res.json(users))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//DELETE
+router.route('/users/:id').delete((req, res) => {
+  User.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Utilisateur supprimé avec success!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 
 module.exports = router;

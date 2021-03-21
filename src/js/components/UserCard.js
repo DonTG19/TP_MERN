@@ -7,7 +7,7 @@ function UserCard(props){
             <div>{props.children}</div>
             <div className="icons">
                 <IconButton icon="images/edit.svg" />
-                <IconButton icon="images/delete.svg" />
+                <IconButton id={props.id} confirmDelete={props.confirmDelete} icon="images/delete.svg" />
             </div>
         </div>
     );

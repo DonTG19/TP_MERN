@@ -1,6 +1,24 @@
 class UserList extends React.Component{
     constructor(props){
         super(props);
+        this.state = {idOfElementForDelete: 0};
+
+        this.showConfirmDeleteModal = this.showConfirmDeleteModal.bind(this);
+        this.mapUser = this.mapUser.bind(this);
+    }
+
+    showConfirmDeleteModal(idOfElementForDelete){
+        this.setState({idOfElementForDelete});
+        new bootstrap.Modal(document.getElementById('deleteUser'), {}).show();
+    }
+
+    mapUser(user){
+        return (
+            <UserCard key={user._id} id={user._id} confirmDelete={this.showConfirmDeleteModal} image="images/logo.png">
+                <h4>{user.username}</h4>
+                <h4>{user.gender}</h4>
+            </UserCard>
+        )
     }
 
     render() {
@@ -8,18 +26,10 @@ class UserList extends React.Component{
                 this.props.users.length != 0 ?
                 <section>
                     <div>
-                        {
-                            this.props.users.map(function(user){
-                                return (
-                                    <UserCard key={user._id} image="images/logo.png">
-                                        <h4>{user.username}</h4>
-                                        <h4>{user.gender}</h4>
-                                    </UserCard>
-                                )
-                            })
-                        }
+                        {this.props.users.map(this.mapUser)}
                     </div>
-                    <Pagination />
+                    <Pagination/>
+                    <DeleteUser id={this.state.idOfElementForDelete} onUserDeleted={this.props.onUserDeleted}/>
                 </section>
                 :
                 <section>

@@ -5,6 +5,7 @@ class Main extends React.Component{
 
         this.getUserListe = this.getUserListe.bind(this);
         this.displayNewUser = this.displayNewUser.bind(this);
+        this.removeUser = this.removeUser.bind(this);
     }
 
     componentDidMount(){
@@ -21,6 +22,12 @@ class Main extends React.Component{
         users.unshift(user);
         this.setState({ users });
     }
+
+    removeUser(id){
+        this.setState(function(state){
+            return {users: state.users.filter(user => user._id != id)};
+        });
+    }
     
     render(){
         return (
@@ -28,7 +35,7 @@ class Main extends React.Component{
                 <Header />
                 <div id="main">
                     <FilterBloc/>
-                    <UserList users={this.state.users}/>
+                    <UserList users={this.state.users} onUserDeleted={this.removeUser}/>
                     <Modal onUserAdded={this.displayNewUser}/>
                 </div>
             </div>

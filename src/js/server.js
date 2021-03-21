@@ -20,6 +20,7 @@ connection.once('open', () => {
 const routes = require('./routes.js');
 app.get('*', routes);
 app.post('*', routes);
+app.delete('*', routes);
 app.use(express.static('public'));  //CCM
 
 app.listen(port, () => {
