@@ -8,7 +8,7 @@ function Modal(){
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                    <TextBox id="username" placeholder="Nom d'utilisateur"/>
+                    <TextBox id="user" placeholder="Nom d'utilisateur"/>
                     <div>
                         <RadioBox id="genre1" name="gender" label="Masculin"/>
                         <RadioBox id="genre2" name="gender" label="Féminin"/>

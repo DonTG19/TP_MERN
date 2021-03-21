@@ -112,7 +112,7 @@ function Modal() {
     })), React.createElement("div", {
         className: "modal-body"
     }, React.createElement(TextBox, {
-        id: "username",
+        id: "user",
         placeholder: "Nom d'utilisateur"
     }), React.createElement("div", null, React.createElement(RadioBox, {
         id: "genre1",

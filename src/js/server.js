@@ -1,0 +1,26 @@
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+
+require('dotenv').config();
+
+const app = express();
+const port = process.env.PORT || 5000;
+
+app.use(cors());
+app.use(express.json());
+
+const uri = process.env.LOCAL_DATABASE_URI;
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+const connection = mongoose.connection;
+connection.once('open', () => {
+  console.log("Connection à la base de données effectuée avec succès");
+});
+
+const routes = require('./routes.js');
+app.use(express.static('public'));  //CCM
+app.use('*', routes);
+
+app.listen(port, () => {
+    console.log(`Le serveur écoute sur le port numéro: ${port}`);
+});
