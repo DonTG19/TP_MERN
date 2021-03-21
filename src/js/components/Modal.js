@@ -20,6 +20,17 @@ class Modal extends React.Component{
 
     create(){
         makeRequest('/users', 'POST', this.getCreateResponse, this.state);
+    }
+
+    getCreateResponse(response){
+        response = JSON.parse(response);
+        console.log(response.message);
+        this.props.onUserAdded({
+            _id: response.id,
+            username: this.state.username,
+            gender: this.state.gender
+        });
+
         this.setState({
             username: '',
             gender: 'male',
@@ -27,10 +38,8 @@ class Modal extends React.Component{
             news: false,
             email: ''
         });
-    }
 
-    getCreateResponse(response){
-        console.log(response);
+        bootstrap.Modal.getInstance(document.getElementById('staticBackdrop')).hide();
     }
 
     onUsernameChange(username){

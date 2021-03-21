@@ -185,39 +185,95 @@ function IconButton(props) {
     }));
 }
 
-function Main() {
-    return React.createElement("div", null, React.createElement(Header, null), React.createElement("div", {
-        id: "main"
-    }, React.createElement(FilterBloc, null), React.createElement(UserList, null), React.createElement(Modal, null)));
-}
-
-var Modal = function(_React$Component) {
-    _inherits(Modal, _React$Component);
-    var _super = _createSuper(Modal);
-    function Modal(props) {
+var Main = function(_React$Component) {
+    _inherits(Main, _React$Component);
+    var _super = _createSuper(Main);
+    function Main(props) {
         var _this;
-        _classCallCheck(this, Modal);
+        _classCallCheck(this, Main);
         _this = _super.call(this, props);
         _this.state = {
+            users: []
+        };
+        _this.getUserListe = _this.getUserListe.bind(_assertThisInitialized(_this));
+        _this.displayNewUser = _this.displayNewUser.bind(_assertThisInitialized(_this));
+        return _this;
+    }
+    _createClass(Main, [ {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            makeRequest("/users", "GET", this.getUserListe);
+        }
+    }, {
+        key: "getUserListe",
+        value: function getUserListe(users) {
+            users = JSON.parse(users) || [];
+            this.setState({
+                users: users
+            });
+        }
+    }, {
+        key: "displayNewUser",
+        value: function displayNewUser(user) {
+            var users = this.state.users;
+            users.unshift(user);
+            this.setState({
+                users: users
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return React.createElement("div", null, React.createElement(Header, null), React.createElement("div", {
+                id: "main"
+            }, React.createElement(FilterBloc, null), React.createElement(UserList, {
+                users: this.state.users
+            }), React.createElement(Modal, {
+                onUserAdded: this.displayNewUser
+            })));
+        }
+    } ]);
+    return Main;
+}(React.Component);
+
+var Modal = function(_React$Component2) {
+    _inherits(Modal, _React$Component2);
+    var _super2 = _createSuper(Modal);
+    function Modal(props) {
+        var _this2;
+        _classCallCheck(this, Modal);
+        _this2 = _super2.call(this, props);
+        _this2.state = {
             username: "",
             gender: "male",
             dob: "",
             news: false,
             email: ""
         };
-        _this.create = _this.create.bind(_assertThisInitialized(_this));
-        _this.onUsernameChange = _this.onUsernameChange.bind(_assertThisInitialized(_this));
-        _this.onEmailChange = _this.onEmailChange.bind(_assertThisInitialized(_this));
-        _this.onDobChange = _this.onDobChange.bind(_assertThisInitialized(_this));
-        _this.onGenderChange = _this.onGenderChange.bind(_assertThisInitialized(_this));
-        _this.onNewsChange = _this.onNewsChange.bind(_assertThisInitialized(_this));
-        _this.getCreateResponse = _this.getCreateResponse.bind(_assertThisInitialized(_this));
-        return _this;
+        _this2.create = _this2.create.bind(_assertThisInitialized(_this2));
+        _this2.onUsernameChange = _this2.onUsernameChange.bind(_assertThisInitialized(_this2));
+        _this2.onEmailChange = _this2.onEmailChange.bind(_assertThisInitialized(_this2));
+        _this2.onDobChange = _this2.onDobChange.bind(_assertThisInitialized(_this2));
+        _this2.onGenderChange = _this2.onGenderChange.bind(_assertThisInitialized(_this2));
+        _this2.onNewsChange = _this2.onNewsChange.bind(_assertThisInitialized(_this2));
+        _this2.getCreateResponse = _this2.getCreateResponse.bind(_assertThisInitialized(_this2));
+        return _this2;
     }
     _createClass(Modal, [ {
         key: "create",
         value: function create() {
             makeRequest("/users", "POST", this.getCreateResponse, this.state);
+        }
+    }, {
+        key: "getCreateResponse",
+        value: function getCreateResponse(response) {
+            response = JSON.parse(response);
+            console.log(response.message);
+            this.props.onUserAdded({
+                _id: response.id,
+                username: this.state.username,
+                gender: this.state.gender
+            });
             this.setState({
                 username: "",
                 gender: "male",
@@ -225,11 +281,7 @@ var Modal = function(_React$Component) {
                 news: false,
                 email: ""
             });
-        }
-    }, {
-        key: "getCreateResponse",
-        value: function getCreateResponse(response) {
-            console.log(response);
+            bootstrap.Modal.getInstance(document.getElementById("staticBackdrop")).hide();
         }
     }, {
         key: "onUsernameChange",
@@ -409,15 +461,15 @@ function Pagination() {
     }, "»")))));
 }
 
-var RadioBox = function(_React$Component2) {
-    _inherits(RadioBox, _React$Component2);
-    var _super2 = _createSuper(RadioBox);
+var RadioBox = function(_React$Component3) {
+    _inherits(RadioBox, _React$Component3);
+    var _super3 = _createSuper(RadioBox);
     function RadioBox(props) {
-        var _this2;
+        var _this3;
         _classCallCheck(this, RadioBox);
-        _this2 = _super2.call(this, props);
-        _this2.handleChange = _this2.handleChange.bind(_assertThisInitialized(_this2));
-        return _this2;
+        _this3 = _super3.call(this, props);
+        _this3.handleChange = _this3.handleChange.bind(_assertThisInitialized(_this3));
+        return _this3;
     }
     _createClass(RadioBox, [ {
         key: "handleChange",
@@ -446,15 +498,15 @@ var RadioBox = function(_React$Component2) {
     return RadioBox;
 }(React.Component);
 
-var TextBox = function(_React$Component3) {
-    _inherits(TextBox, _React$Component3);
-    var _super3 = _createSuper(TextBox);
+var TextBox = function(_React$Component4) {
+    _inherits(TextBox, _React$Component4);
+    var _super4 = _createSuper(TextBox);
     function TextBox(props) {
-        var _this3;
+        var _this4;
         _classCallCheck(this, TextBox);
-        _this3 = _super3.call(this, props);
-        _this3.handleChange = _this3.handleChange.bind(_assertThisInitialized(_this3));
-        return _this3;
+        _this4 = _super4.call(this, props);
+        _this4.handleChange = _this4.handleChange.bind(_assertThisInitialized(_this4));
+        return _this4;
     }
     _createClass(TextBox, [ {
         key: "handleChange",
@@ -501,34 +553,22 @@ function UserCard(props) {
     })));
 }
 
-var UserList = function(_React$Component4) {
-    _inherits(UserList, _React$Component4);
-    var _super4 = _createSuper(UserList);
+var UserList = function(_React$Component5) {
+    _inherits(UserList, _React$Component5);
+    var _super5 = _createSuper(UserList);
     function UserList(props) {
-        var _this4;
         _classCallCheck(this, UserList);
-        _this4 = _super4.call(this, props);
-        _this4.state = {
-            users: []
-        };
-        _this4.getUserListe = _this4.getUserListe.bind(_assertThisInitialized(_this4));
-        return _this4;
+        return _super5.call(this, props);
     }
     _createClass(UserList, [ {
-        key: "componentDidMount",
-        value: function componentDidMount() {
-            console.log("User liste did mount");
-            makeRequest("/users", "GET", this.getUserListe);
-        }
-    }, {
-        key: "getUserListe",
-        value: function getUserListe(users) {
-            console.log(users);
-        }
-    }, {
         key: "render",
         value: function render() {
-            return this.state.users.length != 0 ? React.createElement("section", null, React.createElement("div", null, this.state.users), React.createElement(Pagination, null)) : React.createElement("section", null, React.createElement("p", null, "Aucun utilisateur dans la base de données !"));
+            return this.props.users.length != 0 ? React.createElement("section", null, React.createElement("div", null, this.props.users.map(function(user) {
+                return React.createElement(UserCard, {
+                    key: user._id,
+                    image: "images/logo.png"
+                }, React.createElement("h4", null, user.username), React.createElement("h4", null, user.gender));
+            })), React.createElement(Pagination, null)) : React.createElement("section", null, React.createElement("p", null, "Aucun utilisateur dans la base de données !"));
         }
     } ]);
     return UserList;

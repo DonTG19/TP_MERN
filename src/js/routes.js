@@ -2,7 +2,7 @@ const router = require('express').Router();
 let User = require('./model.js');
 
 router.route('/users').get((req, res) => {
-  User.find()
+  User.find().select('username gender photo')
     .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -25,7 +25,7 @@ router.route('/users').post((req, res) => {
   });
 
   newUser.save()
-    .then(() => res.json('Utilisateur ajouté avec success!'))
+    .then(() => res.json({message: 'Utilisateur ajouté avec success!', id: newUser._id}))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
