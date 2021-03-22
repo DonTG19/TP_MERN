@@ -1,8 +1,9 @@
 class Main extends React.Component{
     constructor(props){
         super(props);
-        this.state = {users: []};
+        this.state = {users: [], userNumber: 0};
         this.modal = React.createRef();
+
 
         this.getUserListe = this.getUserListe.bind(this);
         this.displayNewUser = this.displayNewUser.bind(this);
@@ -10,10 +11,21 @@ class Main extends React.Component{
         this.showUpdateUserUI = this.showUpdateUserUI.bind(this);
         this.getUser = this.getUser.bind(this);
         this.updateUser = this.updateUser.bind(this);
+        this.getNumberOfUser = this.getNumberOfUser.bind(this);
+        this.requestForUsers = this.requestForUsers.bind(this);
     }
 
     componentDidMount(){
-        makeRequest('/users', 'GET', this.getUserListe);
+        this.requestForUsers();
+        makeRequest('/countusers', 'GET', this.getNumberOfUser);
+    }
+
+    requestForUsers(page = 1){
+        makeRequest('/users/' + page +'/10', 'GET', this.getUserListe);
+    }
+
+    getNumberOfUser(res){
+        this.setState({ userNumber: res });
     }
 
     getUserListe(users){
@@ -24,12 +36,20 @@ class Main extends React.Component{
     displayNewUser(user){
         let users = this.state.users;
         users.unshift(user);
-        this.setState({ users });
+        this.setState(function(state){
+            return {
+                users,
+                userNumber: state.userNumber++
+            }
+        });
     }
 
     removeUser(id){
         this.setState(function(state){
-            return {users: state.users.filter(user => user._id != id)};
+            return {
+                users: state.users.filter(user => user._id != id),
+                userNumber: state.userNumber--
+            };
         });
     }
 
@@ -71,7 +91,13 @@ class Main extends React.Component{
                 <Header />
                 <div id="main">
                     <FilterBloc/>
-                    <UserList users={this.state.users} updateUserUI={this.showUpdateUserUI} onUserDeleted={this.removeUser}/>
+                    <UserList 
+                        users={this.state.users} 
+                        numberUser={this.state.userNumber}
+                        updateUserUI={this.showUpdateUserUI} 
+                        onUserDeleted={this.removeUser}
+                        onPaginate={this.requestForUsers}
+                    />
                     <Modal
                         ref={this.modal} 
                         onUserAdded={this.displayNewUser}

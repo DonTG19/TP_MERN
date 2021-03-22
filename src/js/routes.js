@@ -25,8 +25,11 @@ router.route('/users').post((req, res) => {
 });
 
 //READ
-router.route('/users').get((req, res) => {
-  User.find().select('username gender photo')
+router.route('/users/:page/:size').get((req, res) => {
+  User.find()
+    .skip((req.params.page - 1) * req.params.size)
+    .select('username gender photo')
+    .limit(parseInt(req.params.size)) 
     .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -34,6 +37,13 @@ router.route('/users').get((req, res) => {
 router.route('/users/:id').get((req, res) => {
   User.findById(req.params.id)
     .then(user => res.json(user))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/countusers').get((req, res) => {
+  User.find()
+    .countDocuments() 
+    .then(number => res.json(number))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 

@@ -280,7 +280,8 @@ var Main = function(_React$Component3) {
         _classCallCheck(this, Main);
         _this3 = _super3.call(this, props);
         _this3.state = {
-            users: []
+            users: [],
+            userNumber: 0
         };
         _this3.modal = React.createRef();
         _this3.getUserListe = _this3.getUserListe.bind(_assertThisInitialized(_this3));
@@ -289,12 +290,28 @@ var Main = function(_React$Component3) {
         _this3.showUpdateUserUI = _this3.showUpdateUserUI.bind(_assertThisInitialized(_this3));
         _this3.getUser = _this3.getUser.bind(_assertThisInitialized(_this3));
         _this3.updateUser = _this3.updateUser.bind(_assertThisInitialized(_this3));
+        _this3.getNumberOfUser = _this3.getNumberOfUser.bind(_assertThisInitialized(_this3));
+        _this3.requestForUsers = _this3.requestForUsers.bind(_assertThisInitialized(_this3));
         return _this3;
     }
     _createClass(Main, [ {
         key: "componentDidMount",
         value: function componentDidMount() {
-            makeRequest("/users", "GET", this.getUserListe);
+            this.requestForUsers();
+            makeRequest("/countusers", "GET", this.getNumberOfUser);
+        }
+    }, {
+        key: "requestForUsers",
+        value: function requestForUsers() {
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+            makeRequest("/users/" + page + "/10", "GET", this.getUserListe);
+        }
+    }, {
+        key: "getNumberOfUser",
+        value: function getNumberOfUser(res) {
+            this.setState({
+                userNumber: res
+            });
         }
     }, {
         key: "getUserListe",
@@ -309,8 +326,11 @@ var Main = function(_React$Component3) {
         value: function displayNewUser(user) {
             var users = this.state.users;
             users.unshift(user);
-            this.setState({
-                users: users
+            this.setState(function(state) {
+                return {
+                    users: users,
+                    userNumber: state.userNumber++
+                };
             });
         }
     }, {
@@ -320,7 +340,8 @@ var Main = function(_React$Component3) {
                 return {
                     users: state.users.filter(function(user) {
                         return user._id != id;
-                    })
+                    }),
+                    userNumber: state.userNumber--
                 };
             });
         }
@@ -364,8 +385,10 @@ var Main = function(_React$Component3) {
                 id: "main"
             }, React.createElement(FilterBloc, null), React.createElement(UserList, {
                 users: this.state.users,
+                numberUser: this.state.userNumber,
                 updateUserUI: this.showUpdateUserUI,
-                onUserDeleted: this.removeUser
+                onUserDeleted: this.removeUser,
+                onPaginate: this.requestForUsers
             }), React.createElement(Modal, {
                 ref: this.modal,
                 onUserAdded: this.displayNewUser,
@@ -576,69 +599,77 @@ var Modal = function(_React$Component4) {
     return Modal;
 }(React.Component);
 
-function Pagination() {
-    return React.createElement("nav", {
-        "aria-label": "Page navigation example"
-    }, React.createElement("ul", {
-        className: "pagination"
-    }, React.createElement("li", {
-        className: "page-item"
-    }, React.createElement("a", {
-        className: "page-link",
-        href: "#",
-        "aria-label": "Previous"
-    }, React.createElement("span", {
-        "aria-hidden": "true"
-    }, "«"))), React.createElement("li", {
-        className: "page-item"
-    }, React.createElement("a", {
-        className: "page-link",
-        href: "#"
-    }, "1")), React.createElement("li", {
-        className: "page-item"
-    }, React.createElement("a", {
-        className: "page-link",
-        href: "#"
-    }, "2")), React.createElement("li", {
-        className: "page-item"
-    }, React.createElement("a", {
-        className: "page-link",
-        href: "#"
-    }, "3")), React.createElement("li", {
-        className: "page-item"
-    }, React.createElement("a", {
-        className: "page-link",
-        href: "#"
-    }, "1")), React.createElement("li", {
-        className: "page-item"
-    }, React.createElement("a", {
-        className: "page-link",
-        href: "#"
-    }, "2")), React.createElement("li", {
-        className: "page-item"
-    }, React.createElement("a", {
-        className: "page-link",
-        href: "#"
-    }, "3")), React.createElement("li", {
-        className: "page-item"
-    }, React.createElement("a", {
-        className: "page-link",
-        href: "#",
-        "aria-label": "Next"
-    }, React.createElement("span", {
-        "aria-hidden": "true"
-    }, "»")))));
-}
-
-var RadioBox = function(_React$Component5) {
-    _inherits(RadioBox, _React$Component5);
-    var _super5 = _createSuper(RadioBox);
-    function RadioBox(props) {
+var Pagination = function(_React$Component5) {
+    _inherits(Pagination, _React$Component5);
+    var _super5 = _createSuper(Pagination);
+    function Pagination(props) {
         var _this5;
-        _classCallCheck(this, RadioBox);
+        _classCallCheck(this, Pagination);
         _this5 = _super5.call(this, props);
-        _this5.handleChange = _this5.handleChange.bind(_assertThisInitialized(_this5));
+        _this5.makePagination = _this5.makePagination.bind(_assertThisInitialized(_this5));
+        _this5.handleClick = _this5.handleClick.bind(_assertThisInitialized(_this5));
         return _this5;
+    }
+    _createClass(Pagination, [ {
+        key: "handleClick",
+        value: function handleClick(e) {
+            e.preventDefault();
+            this.props.onPaginate(e.target.text);
+        }
+    }, {
+        key: "makePagination",
+        value: function makePagination() {
+            var links = [], index = 0, page = Math.ceil(this.props.numberUser / 10);
+            for (index; index < page; index++) {
+                links.push(React.createElement("li", {
+                    key: index,
+                    className: "page-item"
+                }, React.createElement("a", {
+                    className: "page-link",
+                    onClick: this.handleClick,
+                    href: "#"
+                }, index + 1)));
+            }
+            return links;
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return React.createElement("nav", {
+                "aria-label": "Page navigation example"
+            }, React.createElement("ul", {
+                className: "pagination"
+            }, React.createElement("li", {
+                className: "page-item"
+            }, React.createElement("a", {
+                className: "page-link",
+                href: "#",
+                "aria-label": "Previous"
+            }, React.createElement("span", {
+                "aria-hidden": "true"
+            }, "«"))), this.makePagination(), React.createElement("li", {
+                className: "page-item"
+            }, React.createElement("a", {
+                className: "page-link",
+                href: "#",
+                "aria-label": "Next"
+            }, React.createElement("span", {
+                "aria-hidden": "true"
+            }, "»")))));
+        }
+    } ]);
+    return Pagination;
+}(React.Component);
+
+var RadioBox = function(_React$Component6) {
+    _inherits(RadioBox, _React$Component6);
+    var _super6 = _createSuper(RadioBox);
+    function RadioBox(props) {
+        var _this6;
+        _classCallCheck(this, RadioBox);
+        _this6 = _super6.call(this, props);
+        _this6.handleChange = _this6.handleChange.bind(_assertThisInitialized(_this6));
+        return _this6;
     }
     _createClass(RadioBox, [ {
         key: "handleChange",
@@ -667,15 +698,15 @@ var RadioBox = function(_React$Component5) {
     return RadioBox;
 }(React.Component);
 
-var TextBox = function(_React$Component6) {
-    _inherits(TextBox, _React$Component6);
-    var _super6 = _createSuper(TextBox);
+var TextBox = function(_React$Component7) {
+    _inherits(TextBox, _React$Component7);
+    var _super7 = _createSuper(TextBox);
     function TextBox(props) {
-        var _this6;
+        var _this7;
         _classCallCheck(this, TextBox);
-        _this6 = _super6.call(this, props);
-        _this6.handleChange = _this6.handleChange.bind(_assertThisInitialized(_this6));
-        return _this6;
+        _this7 = _super7.call(this, props);
+        _this7.handleChange = _this7.handleChange.bind(_assertThisInitialized(_this7));
+        return _this7;
     }
     _createClass(TextBox, [ {
         key: "handleChange",
@@ -726,19 +757,19 @@ function UserCard(props) {
     })));
 }
 
-var UserList = function(_React$Component7) {
-    _inherits(UserList, _React$Component7);
-    var _super7 = _createSuper(UserList);
+var UserList = function(_React$Component8) {
+    _inherits(UserList, _React$Component8);
+    var _super8 = _createSuper(UserList);
     function UserList(props) {
-        var _this7;
+        var _this8;
         _classCallCheck(this, UserList);
-        _this7 = _super7.call(this, props);
-        _this7.state = {
+        _this8 = _super8.call(this, props);
+        _this8.state = {
             idUser: 0
         };
-        _this7.showConfirmDeleteModal = _this7.showConfirmDeleteModal.bind(_assertThisInitialized(_this7));
-        _this7.mapUser = _this7.mapUser.bind(_assertThisInitialized(_this7));
-        return _this7;
+        _this8.showConfirmDeleteModal = _this8.showConfirmDeleteModal.bind(_assertThisInitialized(_this8));
+        _this8.mapUser = _this8.mapUser.bind(_assertThisInitialized(_this8));
+        return _this8;
     }
     _createClass(UserList, [ {
         key: "showConfirmDeleteModal",
@@ -762,7 +793,10 @@ var UserList = function(_React$Component7) {
     }, {
         key: "render",
         value: function render() {
-            return this.props.users.length != 0 ? React.createElement("section", null, React.createElement("div", null, this.props.users.map(this.mapUser)), React.createElement(Pagination, null), React.createElement(DeleteUser, {
+            return this.props.users.length != 0 ? React.createElement("section", null, React.createElement("div", null, this.props.users.map(this.mapUser)), this.props.numberUser > 10 && React.createElement(Pagination, {
+                numberUser: this.props.numberUser,
+                onPaginate: this.props.onPaginate
+            }), React.createElement(DeleteUser, {
                 id: this.state.idUser,
                 onUserDeleted: this.props.onUserDeleted
             })) : React.createElement("section", null, React.createElement("p", null, "Aucun utilisateur dans la base de données !"));

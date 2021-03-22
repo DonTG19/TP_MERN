@@ -28,7 +28,10 @@ class UserList extends React.Component{
                     <div>
                         {this.props.users.map(this.mapUser)}
                     </div>
-                    <Pagination/>
+                    {
+                        this.props.numberUser > 10 && 
+                        <Pagination numberUser={this.props.numberUser} onPaginate={this.props.onPaginate}/>
+                    }
                     <DeleteUser id={this.state.idUser} onUserDeleted={this.props.onUserDeleted}/>
                 </section>
                 :
