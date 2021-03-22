@@ -20,7 +20,7 @@ router.route('/users').post((req, res) => {
   });
 
   newUser.save()
-    .then(() => res.json({message: 'Utilisateur ajouté avec success!', id: newUser._id}))
+    .then(() => res.json({message: 'Utilisateur ajouté avec success !', id: newUser._id}))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -31,10 +31,33 @@ router.route('/users').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/users/:id').get((req, res) => {
+  User.findById(req.params.id)
+    .then(user => res.json(user))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//UPDATE
+router.route('/users/:id').put((req, res) => {
+  User.findById(req.params.id)
+    .then(user => {
+      user.username = req.body.username;
+      user.gender = req.body.gender;
+      user.dob = req.body.dob;
+      user.email = req.body.email;
+      user.news = req.body.news;
+
+      user.save()
+        .then(() => res.json('Utilisateur modifié avec success !'))
+        .catch(err => res.status(400).json('Error: ' + err));
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 //DELETE
 router.route('/users/:id').delete((req, res) => {
   User.findByIdAndDelete(req.params.id)
-    .then(() => res.json('Utilisateur supprimé avec success!'))
+    .then(() => res.json('Utilisateur supprimé avec success !'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 

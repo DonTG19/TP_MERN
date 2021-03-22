@@ -21,6 +21,7 @@ const routes = require('./routes.js');
 app.get('*', routes);
 app.post('*', routes);
 app.delete('*', routes);
+app.put('*', routes);
 app.use(express.static('public'));  //CCM
 
 app.listen(port, () => {

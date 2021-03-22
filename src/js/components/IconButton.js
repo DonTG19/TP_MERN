@@ -6,7 +6,7 @@ class IconButton extends React.Component{
     }
 
     handleClick(){
-        this.props.confirmDelete(this.props.id);
+        this.props.clickAction(this.props.id);
     }
 
     render(){

@@ -257,7 +257,7 @@ var IconButton = function(_React$Component2) {
     _createClass(IconButton, [ {
         key: "handleClick",
         value: function handleClick() {
-            this.props.confirmDelete(this.props.id);
+            this.props.clickAction(this.props.id);
         }
     }, {
         key: "render",
@@ -282,9 +282,13 @@ var Main = function(_React$Component3) {
         _this3.state = {
             users: []
         };
+        _this3.modal = React.createRef();
         _this3.getUserListe = _this3.getUserListe.bind(_assertThisInitialized(_this3));
         _this3.displayNewUser = _this3.displayNewUser.bind(_assertThisInitialized(_this3));
         _this3.removeUser = _this3.removeUser.bind(_assertThisInitialized(_this3));
+        _this3.showUpdateUserUI = _this3.showUpdateUserUI.bind(_assertThisInitialized(_this3));
+        _this3.getUser = _this3.getUser.bind(_assertThisInitialized(_this3));
+        _this3.updateUser = _this3.updateUser.bind(_assertThisInitialized(_this3));
         return _this3;
     }
     _createClass(Main, [ {
@@ -321,15 +325,52 @@ var Main = function(_React$Component3) {
             });
         }
     }, {
+        key: "updateUser",
+        value: function updateUser(userUpdate) {
+            this.setState(function(state) {
+                return {
+                    users: state.users.map(function(user) {
+                        if (user._id == userUpdate._id) return userUpdate;
+                        return user;
+                    })
+                };
+            });
+        }
+    }, {
+        key: "showUpdateUserUI",
+        value: function showUpdateUserUI(idUser) {
+            makeRequest("/users/" + idUser, "GET", this.getUser);
+        }
+    }, {
+        key: "getUser",
+        value: function getUser(user) {
+            user = JSON.parse(user);
+            this.modal.current.setState({
+                _id: user._id,
+                username: user.username,
+                gender: user.gender,
+                dob: user.dob,
+                news: user.news,
+                email: user.email,
+                update: true
+            });
+            document.querySelector("#staticBackdropLabel").text = "Modifier un utilisateur";
+            new bootstrap.Modal(document.getElementById("staticBackdrop"), {}).show();
+        }
+    }, {
         key: "render",
         value: function render() {
             return React.createElement("div", null, React.createElement(Header, null), React.createElement("div", {
                 id: "main"
             }, React.createElement(FilterBloc, null), React.createElement(UserList, {
                 users: this.state.users,
+                updateUserUI: this.showUpdateUserUI,
                 onUserDeleted: this.removeUser
             }), React.createElement(Modal, {
-                onUserAdded: this.displayNewUser
+                ref: this.modal,
+                onUserAdded: this.displayNewUser,
+                onUserUpdated: this.updateUser,
+                title: "Modifier un utilisateur"
             })));
         }
     } ]);
@@ -344,25 +385,35 @@ var Modal = function(_React$Component4) {
         _classCallCheck(this, Modal);
         _this4 = _super4.call(this, props);
         _this4.state = {
+            _id: 0,
             username: "",
             gender: "male",
             dob: "",
             news: false,
-            email: ""
+            email: "",
+            update: false
         };
         _this4.create = _this4.create.bind(_assertThisInitialized(_this4));
+        _this4.update = _this4.update.bind(_assertThisInitialized(_this4));
         _this4.onUsernameChange = _this4.onUsernameChange.bind(_assertThisInitialized(_this4));
         _this4.onEmailChange = _this4.onEmailChange.bind(_assertThisInitialized(_this4));
         _this4.onDobChange = _this4.onDobChange.bind(_assertThisInitialized(_this4));
         _this4.onGenderChange = _this4.onGenderChange.bind(_assertThisInitialized(_this4));
         _this4.onNewsChange = _this4.onNewsChange.bind(_assertThisInitialized(_this4));
         _this4.getCreateResponse = _this4.getCreateResponse.bind(_assertThisInitialized(_this4));
+        _this4.getUpdateResponse = _this4.getUpdateResponse.bind(_assertThisInitialized(_this4));
+        _this4.closeModal = _this4.closeModal.bind(_assertThisInitialized(_this4));
         return _this4;
     }
     _createClass(Modal, [ {
         key: "create",
         value: function create() {
             makeRequest("/users", "POST", this.getCreateResponse, this.state);
+        }
+    }, {
+        key: "update",
+        value: function update() {
+            makeRequest("/users/" + this.state._id, "PUT", this.getUpdateResponse, this.state);
         }
     }, {
         key: "getCreateResponse",
@@ -374,14 +425,32 @@ var Modal = function(_React$Component4) {
                 username: this.state.username,
                 gender: this.state.gender
             });
+            this.closeModal();
+        }
+    }, {
+        key: "getUpdateResponse",
+        value: function getUpdateResponse(resp) {
+            console.log(resp);
+            this.props.onUserUpdated({
+                _id: this.state._id,
+                username: this.state.username,
+                gender: this.state.gender
+            });
+            this.closeModal();
+        }
+    }, {
+        key: "closeModal",
+        value: function closeModal() {
+            bootstrap.Modal.getInstance(document.getElementById("staticBackdrop")).hide();
             this.setState({
+                _id: 0,
                 username: "",
                 gender: "male",
                 dob: "",
                 news: false,
-                email: ""
+                email: "",
+                update: false
             });
-            bootstrap.Modal.getInstance(document.getElementById("staticBackdrop")).hide();
         }
     }, {
         key: "onUsernameChange",
@@ -438,7 +507,7 @@ var Modal = function(_React$Component4) {
             }, React.createElement("h5", {
                 className: "modal-title",
                 id: "staticBackdropLabel"
-            }, "Ajouter un utilisateur"), React.createElement("button", {
+            }, this.state.update ? "Modifier un utilisateur" : "Ajouter un utilisateur"), React.createElement("button", {
                 type: "button",
                 className: "btn-close",
                 "data-bs-dismiss": "modal",
@@ -500,7 +569,7 @@ var Modal = function(_React$Component4) {
             }, "Annuler"), React.createElement("button", {
                 type: "button",
                 className: "btn btn-primary",
-                onClick: this.create
+                onClick: this.state.update ? this.update : this.create
             }, "Enregistrer")))));
         }
     } ]);
@@ -647,10 +716,12 @@ function UserCard(props) {
     })), React.createElement("div", null, props.children), React.createElement("div", {
         className: "icons"
     }, React.createElement(IconButton, {
+        id: props.id,
+        clickAction: props.updateUserUI,
         icon: "images/edit.svg"
     }), React.createElement(IconButton, {
         id: props.id,
-        confirmDelete: props.confirmDelete,
+        clickAction: props.confirmDelete,
         icon: "images/delete.svg"
     })));
 }
@@ -663,7 +734,7 @@ var UserList = function(_React$Component7) {
         _classCallCheck(this, UserList);
         _this7 = _super7.call(this, props);
         _this7.state = {
-            idOfElementForDelete: 0
+            idUser: 0
         };
         _this7.showConfirmDeleteModal = _this7.showConfirmDeleteModal.bind(_assertThisInitialized(_this7));
         _this7.mapUser = _this7.mapUser.bind(_assertThisInitialized(_this7));
@@ -671,9 +742,9 @@ var UserList = function(_React$Component7) {
     }
     _createClass(UserList, [ {
         key: "showConfirmDeleteModal",
-        value: function showConfirmDeleteModal(idOfElementForDelete) {
+        value: function showConfirmDeleteModal(idUser) {
             this.setState({
-                idOfElementForDelete: idOfElementForDelete
+                idUser: idUser
             });
             new bootstrap.Modal(document.getElementById("deleteUser"), {}).show();
         }
@@ -684,6 +755,7 @@ var UserList = function(_React$Component7) {
                 key: user._id,
                 id: user._id,
                 confirmDelete: this.showConfirmDeleteModal,
+                updateUserUI: this.props.updateUserUI,
                 image: "images/logo.png"
             }, React.createElement("h4", null, user.username), React.createElement("h4", null, user.gender));
         }
@@ -691,7 +763,7 @@ var UserList = function(_React$Component7) {
         key: "render",
         value: function render() {
             return this.props.users.length != 0 ? React.createElement("section", null, React.createElement("div", null, this.props.users.map(this.mapUser)), React.createElement(Pagination, null), React.createElement(DeleteUser, {
-                id: this.state.idOfElementForDelete,
+                id: this.state.idUser,
                 onUserDeleted: this.props.onUserDeleted
             })) : React.createElement("section", null, React.createElement("p", null, "Aucun utilisateur dans la base de données !"));
         }

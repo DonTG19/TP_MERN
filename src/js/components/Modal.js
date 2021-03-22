@@ -2,24 +2,33 @@ class Modal extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            _id: 0,
             username: '',
             gender: 'male',
             dob: '',
             news: false,
-            email: ''
+            email: '',
+            update: false
         };
 
         this.create = this.create.bind(this);
+        this.update = this.update.bind(this);
         this.onUsernameChange = this.onUsernameChange.bind(this);
         this.onEmailChange = this.onEmailChange.bind(this);
         this.onDobChange = this.onDobChange.bind(this);
         this.onGenderChange = this.onGenderChange.bind(this);
         this.onNewsChange = this.onNewsChange.bind(this);
         this.getCreateResponse = this.getCreateResponse.bind(this);
+        this.getUpdateResponse = this.getUpdateResponse.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     create(){
         makeRequest('/users', 'POST', this.getCreateResponse, this.state);
+    }
+
+    update(){
+        makeRequest('/users/' + this.state._id, 'PUT', this.getUpdateResponse, this.state);
     }
 
     getCreateResponse(response){
@@ -30,16 +39,30 @@ class Modal extends React.Component{
             username: this.state.username,
             gender: this.state.gender
         });
+        this.closeModal();
+    }
 
+    getUpdateResponse(resp){
+        console.log(resp);
+        this.props.onUserUpdated({
+            _id: this.state._id,
+            username: this.state.username,
+            gender: this.state.gender
+        });
+        this.closeModal();
+    }
+
+    closeModal(){
+        bootstrap.Modal.getInstance(document.getElementById('staticBackdrop')).hide();
         this.setState({
+            _id: 0,
             username: '',
             gender: 'male',
             dob: '',
             news: false,
-            email: ''
+            email: '',
+            update: false
         });
-
-        bootstrap.Modal.getInstance(document.getElementById('staticBackdrop')).hide();
     }
 
     onUsernameChange(username){
@@ -68,7 +91,9 @@ class Modal extends React.Component{
                 <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="staticBackdropLabel">Ajouter un utilisateur</h5>
+                        <h5 className="modal-title" id="staticBackdropLabel">
+                            {this.state.update ? "Modifier un utilisateur" : "Ajouter un utilisateur"}
+                        </h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
@@ -115,7 +140,7 @@ class Modal extends React.Component{
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="button" className="btn btn-primary" onClick={this.create}>Enregistrer</button>
+                        <button type="button" className="btn btn-primary" onClick={this.state.update ? this.update : this.create}>Enregistrer</button>
                     </div>
                 </div>
                 </div>
