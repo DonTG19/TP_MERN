@@ -1,20 +1,49 @@
-function FilterBloc(props){
-    return (
-        <aside>
-            <div>
-                <h4>Rechercher</h4>
-                <TextBox id="username" placeholder="Nom d'utilisateur" />
-            </div>
-            <h4>Trier par</h4>
-            <GroupCheckBox title="Sexe">
-                <CheckBox id="male" label="Male" />
-                <CheckBox id="female" label="Female" />
-            </GroupCheckBox>
-            <GroupCheckBox title="Date de naissance">
-                <CheckBox id="petit" label="Plus petit" />
-                <CheckBox id="grand" label="Plus grand" />
-            </GroupCheckBox>
-            <Button text="Ajouter un utilisateur"/>
-        </aside>
-    );
+class FilterBloc extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {username: '', gender: 0, dob: 0};
+
+        this.onNameChange = this.onNameChange.bind(this);
+        this.onGenderChange = this.onGenderChange.bind(this);
+        this.onDobChange = this.onDobChange.bind(this);
+        this.openModalAddUser = this.openModalAddUser.bind(this);
+    }
+
+    onNameChange(username){
+        this.setState({username}, function(){this.props.onFiltered(this.state)});
+    }
+
+    onGenderChange(gender){
+        this.setState({gender}, function(){this.props.onFiltered(this.state)});
+    }
+
+    onDobChange(dob){
+        this.setState({dob}, function(){this.props.onFiltered(this.state)});
+    }
+
+    openModalAddUser(){
+        new bootstrap.Modal(document.getElementById('staticBackdrop'), {}).show();
+    }
+
+    render(){
+        return (
+            <aside>
+                <Mock numberOfUsers={this.props.numberOfUsers} onFetched={this.props.onFetched}/>
+                <div>
+                    <h4>Rechercher</h4>
+                    <TextBox id="username" value={this.state.username} onValueChange={this.onNameChange} name="username" placeholder="Nom d'utilisateur"/>
+                </div>
+                <h4>Trier par</h4>
+                <GroupCheckBox title="Sexe">
+                    <CheckBox id="male" checked={this.state.gender} onValueChange={this.onGenderChange} value="-1" label="Male"/>
+                    <CheckBox id="female" checked={this.state.gender} onValueChange={this.onGenderChange} value="1" label="Female"/>
+                </GroupCheckBox>
+                <GroupCheckBox title="Date de naissance">
+                    <CheckBox id="petit" checked={this.state.dob} onValueChange={this.onDobChange} value="-1" label="Plus petit"/>
+                    <CheckBox id="grand" checked={this.state.dob} onValueChange={this.onDobChange} value="1" label="Plus grand"/>
+                </GroupCheckBox>
+                <Button click={this.openModalAddUser} text="Ajouter un utilisateur"/>
+            </aside>
+        );
+    }
 }
