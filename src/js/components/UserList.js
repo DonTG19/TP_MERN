@@ -14,7 +14,7 @@ class UserList extends React.Component{
 
     mapUser(user){
         return (
-            <UserCard key={user._id} id={user._id} confirmDelete={this.showConfirmDeleteModal} updateUserUI={this.props.updateUserUI} image="images/logo.png">
+            <UserCard key={user._id} id={user._id} infosUserUI={this.props.infosUserUI} confirmDelete={this.showConfirmDeleteModal} updateUserUI={this.props.updateUserUI} image="images/logo.png">
                 <h4>{user.username}</h4>
                 <h4>{user.gender}</h4>
             </UserCard>
