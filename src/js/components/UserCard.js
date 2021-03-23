@@ -6,6 +6,7 @@ function UserCard(props){
             </div>
             <div>{props.children}</div>
             <div className="icons">
+                <IconButton id={props.id} clickAction={props.infosUserUI} icon="images/edit.svg" />
                 <IconButton id={props.id} clickAction={props.updateUserUI} icon="images/edit.svg" />
                 <IconButton id={props.id} clickAction={props.confirmDelete} icon="images/delete.svg" />
             </div>
