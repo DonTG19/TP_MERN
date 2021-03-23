@@ -1,6 +1,24 @@
 const router = require('express').Router();
 let User = require('./model.js');
 
+function appyFilters(req){
+  let 
+    search = req.query.search, 
+    gender = req.query.gender, 
+    dob = req.query.dob, 
+    find = {}, 
+    sort = {};
+
+  if(search != '')
+    find = { username: new RegExp(search, 'i') };
+  if(gender != 0)
+    sort.gender = gender;
+  if(dob != 0)
+    sort.dob = dob;
+
+  return {find, sort};
+}
+
 //CREATE
 router.route('/users').post((req, res) => {
   const username = req.body.username;
@@ -24,11 +42,24 @@ router.route('/users').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/fetchusers').post((req, res) => {
+  let users = req.body.users;
+  users = users.map(function(user){
+    return new User(user);
+  }); 
+  User.insertMany(users)
+    .then(() => res.json({message: 'Les utilisateurs sont bien enregistrés !', number: users.length}))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 //READ
 router.route('/users/:page/:size').get((req, res) => {
-  User.find()
+  let filters = appyFilters(req);
+
+  User.find(filters.find)
     .skip((req.params.page - 1) * req.params.size)
     .select('username gender photo')
+    .sort(filters.sort)
     .limit(parseInt(req.params.size)) 
     .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -41,7 +72,9 @@ router.route('/users/:id').get((req, res) => {
 });
 
 router.route('/countusers').get((req, res) => {
-  User.find()
+  let filters = appyFilters(req);
+
+  User.find(filters.find)
     .countDocuments() 
     .then(number => res.json(number))
     .catch(err => res.status(400).json('Error: ' + err));
