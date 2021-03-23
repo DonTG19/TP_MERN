@@ -1,0 +1,27 @@
+#showUser{
+    .modal-body{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .image-bloc{
+            width: 20%;
+
+            img{
+                border-radius: 50%;
+            }
+        }
+
+        h4{
+            font-size: 0.9em;
+            padding-top: 5px;
+            padding-bottom: 5px;
+    
+            .titre{
+                display: inline-block;
+                width: 100px;
+                font-weight: bold;
+            }
+        }
+    }
+}

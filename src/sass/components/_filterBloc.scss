@@ -7,7 +7,8 @@ aside{
     width: 250px;
     margin: auto;
     padding: $padding-top-bottom $padding-left-right $padding-top-bottom $padding-left-right;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    //box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    border: 1px solid $gray;
     border-radius: 7px;
     font-family: $font-family;
     color: $text-color;

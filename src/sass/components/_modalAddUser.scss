@@ -1,0 +1,13 @@
+#staticBackdrop{
+    .modal-body{
+        > div{
+            margin-bottom: 10px !important;
+        }
+
+        .radio-box{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+    }
+}

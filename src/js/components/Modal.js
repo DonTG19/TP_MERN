@@ -98,7 +98,7 @@ class Modal extends React.Component{
                     </div>
                     <div className="modal-body">
                         <TextBox id="user" value={this.state.username} onValueChange={this.onUsernameChange} name="username" placeholder="Nom d'utilisateur"/>
-                        <div>
+                        <div className="radio-box">
                             <RadioBox 
                                 id="genre1" 
                                 value="male" 
@@ -117,7 +117,7 @@ class Modal extends React.Component{
                             />
                         </div>
                         <TextBox id="dob" value={this.state.dob} onValueChange={this.onDobChange} name="dob" placeholder="Date de naissance"/>
-                        <div>
+                        <div className="radio-box">
                             <RadioBox 
                                 id="news1" 
                                 value="true" 

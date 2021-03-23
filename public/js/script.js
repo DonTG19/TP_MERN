@@ -815,7 +815,9 @@ var Modal = function(_React$Component8) {
                 onValueChange: this.onUsernameChange,
                 name: "username",
                 placeholder: "Nom d'utilisateur"
-            }), React.createElement("div", null, React.createElement(RadioBox, {
+            }), React.createElement("div", {
+                className: "radio-box"
+            }, React.createElement(RadioBox, {
                 id: "genre1",
                 value: "male",
                 checked: this.state.gender == "male",
@@ -835,7 +837,9 @@ var Modal = function(_React$Component8) {
                 onValueChange: this.onDobChange,
                 name: "dob",
                 placeholder: "Date de naissance"
-            }), React.createElement("div", null, React.createElement(RadioBox, {
+            }), React.createElement("div", {
+                className: "radio-box"
+            }, React.createElement(RadioBox, {
                 id: "news1",
                 value: "true",
                 checked: this.state.news,
@@ -1023,7 +1027,22 @@ var ShowUser = function(_React$Component11) {
                 "aria-label": "Close"
             })), React.createElement("div", {
                 className: "modal-body"
-            }, React.createElement("h4", null, React.createElement("span", null, "Username : "), React.createElement("span", null, this.state.user.username)), React.createElement("h4", null, React.createElement("span", null, "Gender : "), React.createElement("span", null, this.state.user.gender)), React.createElement("h4", null, React.createElement("span", null, "Dob : "), React.createElement("span", null, this.state.user.dob)), React.createElement("h4", null, React.createElement("span", null, "News : "), React.createElement("span", null, this.state.user.news)), React.createElement("h4", null, React.createElement("span", null, "Email : "), React.createElement("span", null, this.state.user.email))), React.createElement("div", {
+            }, React.createElement("div", {
+                className: "image-bloc"
+            }, React.createElement("img", {
+                src: this.state.user.photo || "images/logo.png",
+                alt: "User profil photo"
+            })), React.createElement("div", null, React.createElement("h4", null, React.createElement("span", {
+                className: "titre"
+            }, "Username : "), React.createElement("span", null, this.state.user.username)), React.createElement("h4", null, React.createElement("span", {
+                className: "titre"
+            }, "Gender : "), React.createElement("span", null, this.state.user.gender)), React.createElement("h4", null, React.createElement("span", {
+                className: "titre"
+            }, "Dob : "), React.createElement("span", null, this.state.user.dob)), React.createElement("h4", null, React.createElement("span", {
+                className: "titre"
+            }, "News : "), React.createElement("span", null, this.state.user.news ? "true" : "false")), React.createElement("h4", null, React.createElement("span", {
+                className: "titre"
+            }, "Email : "), React.createElement("span", null, this.state.user.email)))), React.createElement("div", {
                 className: "modal-footer"
             }, React.createElement("button", {
                 type: "button",
