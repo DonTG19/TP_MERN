@@ -105,39 +105,81 @@ function _getPrototypeOf(o) {
     return _getPrototypeOf(o);
 }
 
-function Button(props) {
-    return React.createElement("div", {
-        className: "button"
-    }, React.createElement("button", {
-        "data-bs-toggle": "modal",
-        "data-bs-target": "#staticBackdrop"
-    }, props.text));
-}
-
-function CheckBox(props) {
-    return React.createElement("div", {
-        className: "form-check"
-    }, React.createElement("input", {
-        className: "form-check-input",
-        type: "checkbox",
-        value: "",
-        id: props.id
-    }), React.createElement("label", {
-        className: "form-check-label",
-        htmlFor: props.id
-    }, props.label));
-}
-
-var DeleteUser = function(_React$Component) {
-    _inherits(DeleteUser, _React$Component);
-    var _super = _createSuper(DeleteUser);
-    function DeleteUser(props) {
+var Button = function(_React$Component) {
+    _inherits(Button, _React$Component);
+    var _super = _createSuper(Button);
+    function Button(props) {
         var _this;
-        _classCallCheck(this, DeleteUser);
+        _classCallCheck(this, Button);
         _this = _super.call(this, props);
-        _this["delete"] = _this["delete"].bind(_assertThisInitialized(_this));
-        _this.getDeleteResponse = _this.getDeleteResponse.bind(_assertThisInitialized(_this));
+        _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
         return _this;
+    }
+    _createClass(Button, [ {
+        key: "handleClick",
+        value: function handleClick() {
+            this.props.click();
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return React.createElement("div", {
+                className: "button"
+            }, React.createElement("button", {
+                disabled: this.props.disabled,
+                onClick: this.handleClick
+            }, this.props.text));
+        }
+    } ]);
+    return Button;
+}(React.Component);
+
+var CheckBox = function(_React$Component2) {
+    _inherits(CheckBox, _React$Component2);
+    var _super2 = _createSuper(CheckBox);
+    function CheckBox(props) {
+        var _this2;
+        _classCallCheck(this, CheckBox);
+        _this2 = _super2.call(this, props);
+        _this2.handleChange = _this2.handleChange.bind(_assertThisInitialized(_this2));
+        return _this2;
+    }
+    _createClass(CheckBox, [ {
+        key: "handleChange",
+        value: function handleChange(e) {
+            if (e.target.checked) this.props.onValueChange(e.target.value); else this.props.onValueChange(0);
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return React.createElement("div", {
+                className: "form-check"
+            }, React.createElement("input", {
+                onChange: this.handleChange,
+                className: "form-check-input",
+                value: this.props.value,
+                type: "checkbox",
+                checked: this.props.checked == this.props.value,
+                id: this.props.id
+            }), React.createElement("label", {
+                className: "form-check-label",
+                htmlFor: this.props.id
+            }, this.props.label));
+        }
+    } ]);
+    return CheckBox;
+}(React.Component);
+
+var DeleteUser = function(_React$Component3) {
+    _inherits(DeleteUser, _React$Component3);
+    var _super3 = _createSuper(DeleteUser);
+    function DeleteUser(props) {
+        var _this3;
+        _classCallCheck(this, DeleteUser);
+        _this3 = _super3.call(this, props);
+        _this3["delete"] = _this3["delete"].bind(_assertThisInitialized(_this3));
+        _this3.getDeleteResponse = _this3.getDeleteResponse.bind(_assertThisInitialized(_this3));
+        return _this3;
     }
     _createClass(DeleteUser, [ {
         key: "delete",
@@ -204,30 +246,104 @@ function FileInput(props) {
     }));
 }
 
-function FilterBloc(props) {
-    return React.createElement("aside", null, React.createElement("div", null, React.createElement("h4", null, "Rechercher"), React.createElement(TextBox, {
-        id: "username",
-        placeholder: "Nom d'utilisateur"
-    })), React.createElement("h4", null, "Trier par"), React.createElement(GroupCheckBox, {
-        title: "Sexe"
-    }, React.createElement(CheckBox, {
-        id: "male",
-        label: "Male"
-    }), React.createElement(CheckBox, {
-        id: "female",
-        label: "Female"
-    })), React.createElement(GroupCheckBox, {
-        title: "Date de naissance"
-    }, React.createElement(CheckBox, {
-        id: "petit",
-        label: "Plus petit"
-    }), React.createElement(CheckBox, {
-        id: "grand",
-        label: "Plus grand"
-    })), React.createElement(Button, {
-        text: "Ajouter un utilisateur"
-    }));
-}
+var FilterBloc = function(_React$Component4) {
+    _inherits(FilterBloc, _React$Component4);
+    var _super4 = _createSuper(FilterBloc);
+    function FilterBloc(props) {
+        var _this4;
+        _classCallCheck(this, FilterBloc);
+        _this4 = _super4.call(this, props);
+        _this4.state = {
+            username: "",
+            gender: 0,
+            dob: 0
+        };
+        _this4.onNameChange = _this4.onNameChange.bind(_assertThisInitialized(_this4));
+        _this4.onGenderChange = _this4.onGenderChange.bind(_assertThisInitialized(_this4));
+        _this4.onDobChange = _this4.onDobChange.bind(_assertThisInitialized(_this4));
+        _this4.openModalAddUser = _this4.openModalAddUser.bind(_assertThisInitialized(_this4));
+        return _this4;
+    }
+    _createClass(FilterBloc, [ {
+        key: "onNameChange",
+        value: function onNameChange(username) {
+            this.setState({
+                username: username
+            }, function() {
+                this.props.onFiltered(this.state);
+            });
+        }
+    }, {
+        key: "onGenderChange",
+        value: function onGenderChange(gender) {
+            this.setState({
+                gender: gender
+            }, function() {
+                this.props.onFiltered(this.state);
+            });
+        }
+    }, {
+        key: "onDobChange",
+        value: function onDobChange(dob) {
+            this.setState({
+                dob: dob
+            }, function() {
+                this.props.onFiltered(this.state);
+            });
+        }
+    }, {
+        key: "openModalAddUser",
+        value: function openModalAddUser() {
+            new bootstrap.Modal(document.getElementById("staticBackdrop"), {}).show();
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return React.createElement("aside", null, React.createElement(Mock, {
+                numberOfUsers: this.props.numberOfUsers,
+                onFetched: this.props.onFetched
+            }), React.createElement("div", null, React.createElement("h4", null, "Rechercher"), React.createElement(TextBox, {
+                id: "username",
+                value: this.state.username,
+                onValueChange: this.onNameChange,
+                name: "username",
+                placeholder: "Nom d'utilisateur"
+            })), React.createElement("h4", null, "Trier par"), React.createElement(GroupCheckBox, {
+                title: "Sexe"
+            }, React.createElement(CheckBox, {
+                id: "male",
+                checked: this.state.gender,
+                onValueChange: this.onGenderChange,
+                value: "-1",
+                label: "Male"
+            }), React.createElement(CheckBox, {
+                id: "female",
+                checked: this.state.gender,
+                onValueChange: this.onGenderChange,
+                value: "1",
+                label: "Female"
+            })), React.createElement(GroupCheckBox, {
+                title: "Date de naissance"
+            }, React.createElement(CheckBox, {
+                id: "petit",
+                checked: this.state.dob,
+                onValueChange: this.onDobChange,
+                value: "-1",
+                label: "Plus petit"
+            }), React.createElement(CheckBox, {
+                id: "grand",
+                checked: this.state.dob,
+                onValueChange: this.onDobChange,
+                value: "1",
+                label: "Plus grand"
+            })), React.createElement(Button, {
+                click: this.openModalAddUser,
+                text: "Ajouter un utilisateur"
+            }));
+        }
+    } ]);
+    return FilterBloc;
+}(React.Component);
 
 function GroupCheckBox(props) {
     return React.createElement("div", {
@@ -244,15 +360,15 @@ function Header() {
     })));
 }
 
-var IconButton = function(_React$Component2) {
-    _inherits(IconButton, _React$Component2);
-    var _super2 = _createSuper(IconButton);
+var IconButton = function(_React$Component5) {
+    _inherits(IconButton, _React$Component5);
+    var _super5 = _createSuper(IconButton);
     function IconButton(props) {
-        var _this2;
+        var _this5;
         _classCallCheck(this, IconButton);
-        _this2 = _super2.call(this, props);
-        _this2.handleClick = _this2.handleClick.bind(_assertThisInitialized(_this2));
-        return _this2;
+        _this5 = _super5.call(this, props);
+        _this5.handleClick = _this5.handleClick.bind(_assertThisInitialized(_this5));
+        return _this5;
     }
     _createClass(IconButton, [ {
         key: "handleClick",
@@ -272,39 +388,72 @@ var IconButton = function(_React$Component2) {
     return IconButton;
 }(React.Component);
 
-var Main = function(_React$Component3) {
-    _inherits(Main, _React$Component3);
-    var _super3 = _createSuper(Main);
+var Main = function(_React$Component6) {
+    _inherits(Main, _React$Component6);
+    var _super6 = _createSuper(Main);
     function Main(props) {
-        var _this3;
+        var _this6;
         _classCallCheck(this, Main);
-        _this3 = _super3.call(this, props);
-        _this3.state = {
+        _this6 = _super6.call(this, props);
+        _this6.state = {
             users: [],
             userNumber: 0
         };
-        _this3.modal = React.createRef();
-        _this3.getUserListe = _this3.getUserListe.bind(_assertThisInitialized(_this3));
-        _this3.displayNewUser = _this3.displayNewUser.bind(_assertThisInitialized(_this3));
-        _this3.removeUser = _this3.removeUser.bind(_assertThisInitialized(_this3));
-        _this3.showUpdateUserUI = _this3.showUpdateUserUI.bind(_assertThisInitialized(_this3));
-        _this3.getUser = _this3.getUser.bind(_assertThisInitialized(_this3));
-        _this3.updateUser = _this3.updateUser.bind(_assertThisInitialized(_this3));
-        _this3.getNumberOfUser = _this3.getNumberOfUser.bind(_assertThisInitialized(_this3));
-        _this3.requestForUsers = _this3.requestForUsers.bind(_assertThisInitialized(_this3));
-        return _this3;
+        _this6.modal = React.createRef();
+        _this6.modalInfosUser = React.createRef();
+        _this6.getUserListe = _this6.getUserListe.bind(_assertThisInitialized(_this6));
+        _this6.displayNewUser = _this6.displayNewUser.bind(_assertThisInitialized(_this6));
+        _this6.removeUser = _this6.removeUser.bind(_assertThisInitialized(_this6));
+        _this6.showUpdateUserUI = _this6.showUpdateUserUI.bind(_assertThisInitialized(_this6));
+        _this6.getUserForUpdate = _this6.getUserForUpdate.bind(_assertThisInitialized(_this6));
+        _this6.getUserForInfos = _this6.getUserForInfos.bind(_assertThisInitialized(_this6));
+        _this6.updateUser = _this6.updateUser.bind(_assertThisInitialized(_this6));
+        _this6.getNumberOfUser = _this6.getNumberOfUser.bind(_assertThisInitialized(_this6));
+        _this6.requestForUsers = _this6.requestForUsers.bind(_assertThisInitialized(_this6));
+        _this6.requestForCountUsers = _this6.requestForCountUsers.bind(_assertThisInitialized(_this6));
+        _this6.onFiltered = _this6.onFiltered.bind(_assertThisInitialized(_this6));
+        _this6.showInfosUserUI = _this6.showInfosUserUI.bind(_assertThisInitialized(_this6));
+        _this6.onFetched = _this6.onFetched.bind(_assertThisInitialized(_this6));
+        return _this6;
     }
     _createClass(Main, [ {
         key: "componentDidMount",
         value: function componentDidMount() {
             this.requestForUsers();
-            makeRequest("/countusers", "GET", this.getNumberOfUser);
+            this.requestForCountUsers();
         }
     }, {
         key: "requestForUsers",
         value: function requestForUsers() {
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-            makeRequest("/users/" + page + "/10", "GET", this.getUserListe);
+            var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+            var gender = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+            var dob = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+            makeRequest("/users/" + page + "/10?search=" + search + "&gender=" + gender + "&dob=" + dob, "GET", this.getUserListe);
+        }
+    }, {
+        key: "requestForCountUsers",
+        value: function requestForCountUsers() {
+            var search = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+            var gender = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+            var dob = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+            makeRequest("/countusers?search=" + search + "&gender=" + gender + "&dob=" + dob, "GET", this.getNumberOfUser);
+        }
+    }, {
+        key: "onFiltered",
+        value: function onFiltered(filters) {
+            this.requestForUsers(1, filters.username, filters.gender, filters.dob);
+            this.requestForCountUsers(filters.username, filters.gender, filters.dob);
+        }
+    }, {
+        key: "onFetched",
+        value: function onFetched(rab) {
+            this.requestForUsers();
+            this.setState(function(state) {
+                return {
+                    userNumber: parseInt(state.userNumber) + parseInt(rab)
+                };
+            });
         }
     }, {
         key: "getNumberOfUser",
@@ -360,11 +509,16 @@ var Main = function(_React$Component3) {
     }, {
         key: "showUpdateUserUI",
         value: function showUpdateUserUI(idUser) {
-            makeRequest("/users/" + idUser, "GET", this.getUser);
+            makeRequest("/users/" + idUser, "GET", this.getUserForUpdate);
         }
     }, {
-        key: "getUser",
-        value: function getUser(user) {
+        key: "showInfosUserUI",
+        value: function showInfosUserUI(idUser) {
+            makeRequest("/users/" + idUser, "GET", this.getUserForInfos);
+        }
+    }, {
+        key: "getUserForUpdate",
+        value: function getUserForUpdate(user) {
             user = JSON.parse(user);
             this.modal.current.setState({
                 _id: user._id,
@@ -375,18 +529,28 @@ var Main = function(_React$Component3) {
                 email: user.email,
                 update: true
             });
-            document.querySelector("#staticBackdropLabel").text = "Modifier un utilisateur";
             new bootstrap.Modal(document.getElementById("staticBackdrop"), {}).show();
+        }
+    }, {
+        key: "getUserForInfos",
+        value: function getUserForInfos(user) {
+            user = JSON.parse(user);
+            this.modalInfosUser.current.displayUser(user);
         }
     }, {
         key: "render",
         value: function render() {
             return React.createElement("div", null, React.createElement(Header, null), React.createElement("div", {
                 id: "main"
-            }, React.createElement(FilterBloc, null), React.createElement(UserList, {
+            }, React.createElement(FilterBloc, {
+                numberOfUsers: this.state.userNumber,
+                onFetched: this.onFetched,
+                onFiltered: this.onFiltered
+            }), React.createElement(UserList, {
                 users: this.state.users,
                 numberUser: this.state.userNumber,
                 updateUserUI: this.showUpdateUserUI,
+                infosUserUI: this.showInfosUserUI,
                 onUserDeleted: this.removeUser,
                 onPaginate: this.requestForUsers
             }), React.createElement(Modal, {
@@ -394,20 +558,124 @@ var Main = function(_React$Component3) {
                 onUserAdded: this.displayNewUser,
                 onUserUpdated: this.updateUser,
                 title: "Modifier un utilisateur"
+            }), React.createElement(ShowUser, {
+                ref: this.modalInfosUser
             })));
         }
     } ]);
     return Main;
 }(React.Component);
 
-var Modal = function(_React$Component4) {
-    _inherits(Modal, _React$Component4);
-    var _super4 = _createSuper(Modal);
+var Mock = function(_React$Component7) {
+    _inherits(Mock, _React$Component7);
+    var _super7 = _createSuper(Mock);
+    function Mock(props) {
+        var _this7;
+        _classCallCheck(this, Mock);
+        _this7 = _super7.call(this, props);
+        _this7.state = {
+            disabled: true
+        };
+        _this7.getRandomUsers = _this7.getRandomUsers.bind(_assertThisInitialized(_this7));
+        _this7.handleErrors = _this7.handleErrors.bind(_assertThisInitialized(_this7));
+        _this7.parseJSON = _this7.parseJSON.bind(_assertThisInitialized(_this7));
+        _this7.showUser = _this7.showUser.bind(_assertThisInitialized(_this7));
+        _this7.printError = _this7.printError.bind(_assertThisInitialized(_this7));
+        _this7.getFetchResponse = _this7.getFetchResponse.bind(_assertThisInitialized(_this7));
+        _this7.disableButton = _this7.disableButton.bind(_assertThisInitialized(_this7));
+        return _this7;
+    }
+    _createClass(Mock, [ {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            this.disableButton();
+        }
+    }, {
+        key: "disableButton",
+        value: function disableButton() {
+            var totalUsers = this.props.numberOfUsers, add;
+            if (totalUsers < 5) {
+                add = 5 - totalUsers;
+                this.setState({
+                    disabled: false
+                });
+            } else {
+                this.setState({
+                    disabled: true
+                });
+            }
+        }
+    }, {
+        key: "getRandomUsers",
+        value: function getRandomUsers() {
+            fetch("https://randomuser.me/api/?inc=gender,email,login,picture,dob&results=2").then(this.handleErrors).then(this.parseJSON).then(this.showUser)["catch"](this.printError);
+        }
+    }, {
+        key: "handleErrors",
+        value: function handleErrors(res) {
+            if (!res.ok) {
+                throw error(res.status);
+            }
+            return res;
+        }
+    }, {
+        key: "parseJSON",
+        value: function parseJSON(res) {
+            return res.json();
+        }
+    }, {
+        key: "showUser",
+        value: function showUser(res) {
+            var results = res.results;
+            results = results.map(function(result) {
+                return {
+                    username: result.login.username,
+                    gender: result.gender,
+                    dob: result.dob.date,
+                    news: result.dob.age > 24,
+                    email: result.email,
+                    photo: result.picture.medium
+                };
+            });
+            makeRequest("/fetchusers", "POST", this.getFetchResponse, {
+                users: results
+            });
+            return 1;
+        }
+    }, {
+        key: "getFetchResponse",
+        value: function getFetchResponse(res) {
+            res = JSON.parse(res);
+            console.log(res.message);
+            this.props.onFetched(res.number);
+            this.disableButton();
+        }
+    }, {
+        key: "printError",
+        value: function printError(error) {
+            console.log(error);
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return React.createElement("div", null, React.createElement("h4", null, this.props.numberOfUsers), React.createElement(Button, {
+                disabled: this.state.disabled,
+                click: this.getRandomUsers,
+                text: "Fetch"
+            }));
+        }
+    } ]);
+    return Mock;
+}(React.Component);
+
+var Modal = function(_React$Component8) {
+    _inherits(Modal, _React$Component8);
+    var _super8 = _createSuper(Modal);
     function Modal(props) {
-        var _this4;
+        var _this8;
         _classCallCheck(this, Modal);
-        _this4 = _super4.call(this, props);
-        _this4.state = {
+        _this8 = _super8.call(this, props);
+        _this8.state = {
             _id: 0,
             username: "",
             gender: "male",
@@ -416,17 +684,17 @@ var Modal = function(_React$Component4) {
             email: "",
             update: false
         };
-        _this4.create = _this4.create.bind(_assertThisInitialized(_this4));
-        _this4.update = _this4.update.bind(_assertThisInitialized(_this4));
-        _this4.onUsernameChange = _this4.onUsernameChange.bind(_assertThisInitialized(_this4));
-        _this4.onEmailChange = _this4.onEmailChange.bind(_assertThisInitialized(_this4));
-        _this4.onDobChange = _this4.onDobChange.bind(_assertThisInitialized(_this4));
-        _this4.onGenderChange = _this4.onGenderChange.bind(_assertThisInitialized(_this4));
-        _this4.onNewsChange = _this4.onNewsChange.bind(_assertThisInitialized(_this4));
-        _this4.getCreateResponse = _this4.getCreateResponse.bind(_assertThisInitialized(_this4));
-        _this4.getUpdateResponse = _this4.getUpdateResponse.bind(_assertThisInitialized(_this4));
-        _this4.closeModal = _this4.closeModal.bind(_assertThisInitialized(_this4));
-        return _this4;
+        _this8.create = _this8.create.bind(_assertThisInitialized(_this8));
+        _this8.update = _this8.update.bind(_assertThisInitialized(_this8));
+        _this8.onUsernameChange = _this8.onUsernameChange.bind(_assertThisInitialized(_this8));
+        _this8.onEmailChange = _this8.onEmailChange.bind(_assertThisInitialized(_this8));
+        _this8.onDobChange = _this8.onDobChange.bind(_assertThisInitialized(_this8));
+        _this8.onGenderChange = _this8.onGenderChange.bind(_assertThisInitialized(_this8));
+        _this8.onNewsChange = _this8.onNewsChange.bind(_assertThisInitialized(_this8));
+        _this8.getCreateResponse = _this8.getCreateResponse.bind(_assertThisInitialized(_this8));
+        _this8.getUpdateResponse = _this8.getUpdateResponse.bind(_assertThisInitialized(_this8));
+        _this8.closeModal = _this8.closeModal.bind(_assertThisInitialized(_this8));
+        return _this8;
     }
     _createClass(Modal, [ {
         key: "create",
@@ -599,16 +867,16 @@ var Modal = function(_React$Component4) {
     return Modal;
 }(React.Component);
 
-var Pagination = function(_React$Component5) {
-    _inherits(Pagination, _React$Component5);
-    var _super5 = _createSuper(Pagination);
+var Pagination = function(_React$Component9) {
+    _inherits(Pagination, _React$Component9);
+    var _super9 = _createSuper(Pagination);
     function Pagination(props) {
-        var _this5;
+        var _this9;
         _classCallCheck(this, Pagination);
-        _this5 = _super5.call(this, props);
-        _this5.makePagination = _this5.makePagination.bind(_assertThisInitialized(_this5));
-        _this5.handleClick = _this5.handleClick.bind(_assertThisInitialized(_this5));
-        return _this5;
+        _this9 = _super9.call(this, props);
+        _this9.makePagination = _this9.makePagination.bind(_assertThisInitialized(_this9));
+        _this9.handleClick = _this9.handleClick.bind(_assertThisInitialized(_this9));
+        return _this9;
     }
     _createClass(Pagination, [ {
         key: "handleClick",
@@ -661,15 +929,15 @@ var Pagination = function(_React$Component5) {
     return Pagination;
 }(React.Component);
 
-var RadioBox = function(_React$Component6) {
-    _inherits(RadioBox, _React$Component6);
-    var _super6 = _createSuper(RadioBox);
+var RadioBox = function(_React$Component10) {
+    _inherits(RadioBox, _React$Component10);
+    var _super10 = _createSuper(RadioBox);
     function RadioBox(props) {
-        var _this6;
+        var _this10;
         _classCallCheck(this, RadioBox);
-        _this6 = _super6.call(this, props);
-        _this6.handleChange = _this6.handleChange.bind(_assertThisInitialized(_this6));
-        return _this6;
+        _this10 = _super10.call(this, props);
+        _this10.handleChange = _this10.handleChange.bind(_assertThisInitialized(_this10));
+        return _this10;
     }
     _createClass(RadioBox, [ {
         key: "handleChange",
@@ -698,15 +966,80 @@ var RadioBox = function(_React$Component6) {
     return RadioBox;
 }(React.Component);
 
-var TextBox = function(_React$Component7) {
-    _inherits(TextBox, _React$Component7);
-    var _super7 = _createSuper(TextBox);
+var ShowUser = function(_React$Component11) {
+    _inherits(ShowUser, _React$Component11);
+    var _super11 = _createSuper(ShowUser);
+    function ShowUser(props) {
+        var _this11;
+        _classCallCheck(this, ShowUser);
+        _this11 = _super11.call(this, props);
+        _this11.state = {
+            user: {}
+        };
+        _this11.ok = _this11.ok.bind(_assertThisInitialized(_this11));
+        return _this11;
+    }
+    _createClass(ShowUser, [ {
+        key: "ok",
+        value: function ok() {
+            bootstrap.Modal.getInstance(document.getElementById("showUser")).hide();
+        }
+    }, {
+        key: "displayUser",
+        value: function displayUser(user) {
+            this.setState({
+                user: user
+            });
+            new bootstrap.Modal(document.getElementById("showUser"), {}).show();
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return React.createElement("div", {
+                className: "modal fade",
+                id: "showUser",
+                "data-bs-backdrop": "static",
+                "data-bs-keyboard": "false",
+                tabIndex: "-1",
+                "aria-labelledby": "deleteUserLabel",
+                "aria-hidden": "true"
+            }, React.createElement("div", {
+                className: "modal-dialog modal-dialog-centered"
+            }, React.createElement("div", {
+                className: "modal-content"
+            }, React.createElement("div", {
+                className: "modal-header"
+            }, React.createElement("h5", {
+                className: "modal-title",
+                id: "staticBackdropLabel"
+            }, "Informations utilisateur"), React.createElement("button", {
+                type: "button",
+                className: "btn-close",
+                "data-bs-dismiss": "modal",
+                "aria-label": "Close"
+            })), React.createElement("div", {
+                className: "modal-body"
+            }, React.createElement("h4", null, React.createElement("span", null, "Username : "), React.createElement("span", null, this.state.user.username)), React.createElement("h4", null, React.createElement("span", null, "Gender : "), React.createElement("span", null, this.state.user.gender)), React.createElement("h4", null, React.createElement("span", null, "Dob : "), React.createElement("span", null, this.state.user.dob)), React.createElement("h4", null, React.createElement("span", null, "News : "), React.createElement("span", null, this.state.user.news)), React.createElement("h4", null, React.createElement("span", null, "Email : "), React.createElement("span", null, this.state.user.email))), React.createElement("div", {
+                className: "modal-footer"
+            }, React.createElement("button", {
+                type: "button",
+                className: "btn btn-primary",
+                onClick: this.ok
+            }, "Ok")))));
+        }
+    } ]);
+    return ShowUser;
+}(React.Component);
+
+var TextBox = function(_React$Component12) {
+    _inherits(TextBox, _React$Component12);
+    var _super12 = _createSuper(TextBox);
     function TextBox(props) {
-        var _this7;
+        var _this12;
         _classCallCheck(this, TextBox);
-        _this7 = _super7.call(this, props);
-        _this7.handleChange = _this7.handleChange.bind(_assertThisInitialized(_this7));
-        return _this7;
+        _this12 = _super12.call(this, props);
+        _this12.handleChange = _this12.handleChange.bind(_assertThisInitialized(_this12));
+        return _this12;
     }
     _createClass(TextBox, [ {
         key: "handleChange",
@@ -742,11 +1075,15 @@ function UserCard(props) {
     }, React.createElement("div", {
         className: "image-bloc"
     }, React.createElement("img", {
-        src: props.image || "images/user.png",
+        src: props.image,
         alt: "User profil photo"
     })), React.createElement("div", null, props.children), React.createElement("div", {
         className: "icons"
     }, React.createElement(IconButton, {
+        id: props.id,
+        clickAction: props.infosUserUI,
+        icon: "images/more.svg"
+    }), React.createElement(IconButton, {
         id: props.id,
         clickAction: props.updateUserUI,
         icon: "images/edit.svg"
@@ -757,19 +1094,19 @@ function UserCard(props) {
     })));
 }
 
-var UserList = function(_React$Component8) {
-    _inherits(UserList, _React$Component8);
-    var _super8 = _createSuper(UserList);
+var UserList = function(_React$Component13) {
+    _inherits(UserList, _React$Component13);
+    var _super13 = _createSuper(UserList);
     function UserList(props) {
-        var _this8;
+        var _this13;
         _classCallCheck(this, UserList);
-        _this8 = _super8.call(this, props);
-        _this8.state = {
+        _this13 = _super13.call(this, props);
+        _this13.state = {
             idUser: 0
         };
-        _this8.showConfirmDeleteModal = _this8.showConfirmDeleteModal.bind(_assertThisInitialized(_this8));
-        _this8.mapUser = _this8.mapUser.bind(_assertThisInitialized(_this8));
-        return _this8;
+        _this13.showConfirmDeleteModal = _this13.showConfirmDeleteModal.bind(_assertThisInitialized(_this13));
+        _this13.mapUser = _this13.mapUser.bind(_assertThisInitialized(_this13));
+        return _this13;
     }
     _createClass(UserList, [ {
         key: "showConfirmDeleteModal",
@@ -785,9 +1122,10 @@ var UserList = function(_React$Component8) {
             return React.createElement(UserCard, {
                 key: user._id,
                 id: user._id,
+                infosUserUI: this.props.infosUserUI,
                 confirmDelete: this.showConfirmDeleteModal,
                 updateUserUI: this.props.updateUserUI,
-                image: "images/logo.png"
+                image: user.photo || "images/logo.png"
             }, React.createElement("h4", null, user.username), React.createElement("h4", null, user.gender));
         }
     }, {
