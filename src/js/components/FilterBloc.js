@@ -29,10 +29,12 @@ class FilterBloc extends React.Component{
         return (
             <aside>
                 <Mock numberOfUsers={this.props.numberOfUsers} onFetched={this.props.onFetched}/>
+                <hr/>
                 <div>
-                    <h4>Rechercher</h4>
+                    <h4 id="label-search">Rechercher</h4>
                     <TextBox id="username" value={this.state.username} onValueChange={this.onNameChange} name="username" placeholder="Nom d'utilisateur"/>
                 </div>
+                <hr/>
                 <h4>Trier par</h4>
                 <GroupCheckBox title="Sexe">
                     <CheckBox id="male" checked={this.state.gender} onValueChange={this.onGenderChange} value="-1" label="Male"/>
@@ -42,6 +44,7 @@ class FilterBloc extends React.Component{
                     <CheckBox id="petit" checked={this.state.dob} onValueChange={this.onDobChange} value="-1" label="Plus petit"/>
                     <CheckBox id="grand" checked={this.state.dob} onValueChange={this.onDobChange} value="1" label="Plus grand"/>
                 </GroupCheckBox>
+                <hr/>
                 <Button click={this.openModalAddUser} text="Ajouter un utilisateur"/>
             </aside>
         );

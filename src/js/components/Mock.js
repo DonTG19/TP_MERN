@@ -74,8 +74,8 @@ class Mock extends React.Component{
 
     render(){
         return (
-            <div>
-                <h4>{this.props.numberOfUsers}</h4>
+            <div id="mock">
+                <h4>{this.props.numberOfUsers} utilisateurs</h4>
                 <Button disabled={this.state.disabled} click={this.getRandomUsers} text="Fetch"/>
             </div>
         );

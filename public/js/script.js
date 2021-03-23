@@ -302,13 +302,15 @@ var FilterBloc = function(_React$Component4) {
             return React.createElement("aside", null, React.createElement(Mock, {
                 numberOfUsers: this.props.numberOfUsers,
                 onFetched: this.props.onFetched
-            }), React.createElement("div", null, React.createElement("h4", null, "Rechercher"), React.createElement(TextBox, {
+            }), React.createElement("hr", null), React.createElement("div", null, React.createElement("h4", {
+                id: "label-search"
+            }, "Rechercher"), React.createElement(TextBox, {
                 id: "username",
                 value: this.state.username,
                 onValueChange: this.onNameChange,
                 name: "username",
                 placeholder: "Nom d'utilisateur"
-            })), React.createElement("h4", null, "Trier par"), React.createElement(GroupCheckBox, {
+            })), React.createElement("hr", null), React.createElement("h4", null, "Trier par"), React.createElement(GroupCheckBox, {
                 title: "Sexe"
             }, React.createElement(CheckBox, {
                 id: "male",
@@ -336,7 +338,7 @@ var FilterBloc = function(_React$Component4) {
                 onValueChange: this.onDobChange,
                 value: "1",
                 label: "Plus grand"
-            })), React.createElement(Button, {
+            })), React.createElement("hr", null), React.createElement(Button, {
                 click: this.openModalAddUser,
                 text: "Ajouter un utilisateur"
             }));
@@ -658,7 +660,9 @@ var Mock = function(_React$Component7) {
     }, {
         key: "render",
         value: function render() {
-            return React.createElement("div", null, React.createElement("h4", null, this.props.numberOfUsers), React.createElement(Button, {
+            return React.createElement("div", {
+                id: "mock"
+            }, React.createElement("h4", null, this.props.numberOfUsers, " utilisateurs"), React.createElement(Button, {
                 disabled: this.state.disabled,
                 click: this.getRandomUsers,
                 text: "Fetch"

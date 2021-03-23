@@ -5,9 +5,10 @@
 @import "components/userList";
 @import "components/pagination";
 @import "components/button";
+@import "components/mock";
 
 #main{
-    border: 1px solid;
+    //border: 1px solid;
     min-width: 250px;
     max-width: 1000px;
     width: 80%;

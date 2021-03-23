@@ -2,22 +2,34 @@ $padding-top-bottom: 25px;
 $padding-left-right: 10px;
 
 aside{
+    background-color: $primary-color;
     min-width: 200px;
     width: 250px;
     margin: auto;
     padding: $padding-top-bottom $padding-left-right $padding-top-bottom $padding-left-right;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.31);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     border-radius: 7px;
-    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-family: $font-family;
     color: $text-color;
     margin-bottom: 50px;
 
     h4{
-        font-size: 1em;
-        color: rgba(0, 0, 0, 0.9);
+        font-size: 0.9em;
     }
 
     .group-check-div{
-        margin-top: 15px;
+        margin-top: 7px;
+        
+         > div{
+            width: 90%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            label{
+                font-size: 0.8em;
+            }
+         }
     }
 }
