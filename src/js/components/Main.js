@@ -1,10 +1,10 @@
 class Main extends React.Component{
     constructor(props){
         super(props);
-        this.state = {users: [], userNumber: 0};
+        this.state = {users: [], userNumber: 0, fetch: true};
         this.modal = React.createRef();
         this.modalInfosUser = React.createRef();
-
+        this.filterBloc = React.createRef();
 
         this.getUserListe = this.getUserListe.bind(this);
         this.displayNewUser = this.displayNewUser.bind(this);
@@ -23,20 +23,21 @@ class Main extends React.Component{
 
     componentDidMount(){
         this.requestForUsers();
+    }
+
+    requestForUsers(page = 1){
+        let filters = this.filterBloc.current.state;
+        makeRequest('/users/' + page +'/10?search=' + filters.username + '&gender=' + filters.gender + "&dob=" + filters.dob, 'GET', this.getUserListe);
         this.requestForCountUsers();
     }
 
-    requestForUsers(page = 1, search = '', gender = 0, dob = 0){
-        makeRequest('/users/' + page +'/10?search=' + search + '&gender=' + gender + "&dob=" + dob, 'GET', this.getUserListe);
+    requestForCountUsers(){
+        let filters = this.filterBloc.current.state;
+        makeRequest('/countusers?search=' + filters.username + '&gender=' + filters.gender + "&dob=" + filters.dob, 'GET', this.getNumberOfUser);
     }
 
-    requestForCountUsers(search = '', gender = 0, dob = 0){
-        makeRequest('/countusers?search=' + search + '&gender=' + gender + "&dob=" + dob, 'GET', this.getNumberOfUser);
-    }
-
-    onFiltered(filters){
-        this.requestForUsers(1, filters.username, filters.gender, filters.dob);
-        this.requestForCountUsers(filters.username, filters.gender, filters.dob);
+    onFiltered(){
+        this.requestForUsers();
     }
 
     onFetched(rab){
@@ -49,7 +50,13 @@ class Main extends React.Component{
     }
 
     getNumberOfUser(res){
-        this.setState({ userNumber: res });
+        res = parseInt(res);
+        let filters = this.filterBloc.current.state;
+        if(filters.username != '' || filters.gender != 0 || filters.dob != 0){
+            this.setState({ userNumber: res, fetch: true });
+        }else{
+            this.setState({ userNumber: res, fetch: res >= 100 });
+        }
     }
 
     getUserListe(users){
@@ -58,23 +65,25 @@ class Main extends React.Component{
     }
 
     displayNewUser(user){
-        let users = this.state.users;
-        users.unshift(user);
+        //let users = this.state.users;
+        //users.unshift(user);
         this.setState(function(state){
             return {
-                users,
-                userNumber: state.userNumber++
+                //users,
+                userNumber: state.userNumber + 1
             }
         });
+        this.showInfosUserUI(user._id);
     }
 
     removeUser(id){
         this.setState(function(state){
             return {
-                users: state.users.filter(user => user._id != id),
-                userNumber: state.userNumber--
+                //users: state.users.filter(user => user._id != id),
+                userNumber: state.userNumber - 1
             };
         });
+        this.requestForUsers();
     }
 
     updateUser(userUpdate){
@@ -85,6 +94,7 @@ class Main extends React.Component{
                 return user;
             })};
         });
+        this.showInfosUserUI(userUpdate._id);
     }
 
     showUpdateUserUI(idUser){
@@ -121,7 +131,13 @@ class Main extends React.Component{
             <div>
                 <Header />
                 <div id="main">
-                    <FilterBloc numberOfUsers={this.state.userNumber} onFetched={this.onFetched} onFiltered={this.onFiltered}/>
+                    <FilterBloc 
+                        numberOfUsers={this.state.userNumber} 
+                        disabled={this.state.fetch}
+                        onFetched={this.onFetched} 
+                        onFiltered={this.onFiltered}
+                        ref={this.filterBloc} 
+                    />
                     <UserList 
                         users={this.state.users} 
                         numberUser={this.state.userNumber}
