@@ -43,11 +43,13 @@ class Modal extends React.Component{
     }
 
     getUpdateResponse(resp){
-        console.log(resp);
+        resp = JSON.parse(resp);
+        console.log(resp.message);
         this.props.onUserUpdated({
             _id: this.state._id,
             username: this.state.username,
-            gender: this.state.gender
+            gender: this.state.gender,
+            photo: resp.photo
         });
         this.closeModal();
     }
@@ -139,7 +141,7 @@ class Modal extends React.Component{
                         <FileInput/>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="button" className="btn btn-secondary" onClick={this.closeModal}>Annuler</button>
                         <button type="button" className="btn btn-primary" onClick={this.state.update ? this.update : this.create}>Enregistrer</button>
                     </div>
                 </div>
