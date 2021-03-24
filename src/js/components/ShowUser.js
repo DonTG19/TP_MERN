@@ -16,6 +16,8 @@ class ShowUser extends React.Component{
     }
 
     render(){
+        let dob = this.state.user.dob;
+        dob = dob && dob.split('T')[0];
         return (
             <div className="modal fade" id="showUser" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
@@ -31,7 +33,7 @@ class ShowUser extends React.Component{
                         <div>
                             <h4><span className="titre">Username : </span><span>{this.state.user.username}</span></h4>
                             <h4><span className="titre">Gender : </span><span>{this.state.user.gender}</span></h4>
-                            <h4><span className="titre">Dob : </span><span>{this.state.user.dob}</span></h4>
+                            <h4><span className="titre">Dob : </span><span>{dob}</span></h4>
                             <h4><span className="titre">News : </span><span>{this.state.user.news ? 'true' : 'false'}</span></h4>
                             <h4><span className="titre">Email : </span><span>{this.state.user.email}</span></h4>
                         </div>
