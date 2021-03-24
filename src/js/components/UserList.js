@@ -41,9 +41,7 @@ class UserList extends React.Component{
                     <DeleteUser id={this.state.idUser} onUserDeleted={this.props.onUserDeleted}/>
                 </section>
                 :
-                <section>
-                    <p>Aucun utilisateur dans la base de données !</p>
-                </section>
+                <section></section>
         );
     }
 
