@@ -182,7 +182,8 @@ nav ul {
       -ms-flex-pack: center;
           justify-content: center; }
   nav ul .page-link {
-    color: rgba(0, 0, 0, 0.8); }
+    color: rgba(0, 0, 0, 0.8);
+    font-family: "Roboto", sans-serif; }
 
 .button {
   text-align: center; }

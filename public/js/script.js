@@ -915,23 +915,7 @@ var Pagination = function(_React$Component9) {
                 "aria-label": "Page navigation example"
             }, React.createElement("ul", {
                 className: "pagination"
-            }, React.createElement("li", {
-                className: "page-item"
-            }, React.createElement("a", {
-                className: "page-link",
-                href: "#",
-                "aria-label": "Previous"
-            }, React.createElement("span", {
-                "aria-hidden": "true"
-            }, "«"))), this.makePagination(), React.createElement("li", {
-                className: "page-item"
-            }, React.createElement("a", {
-                className: "page-link",
-                href: "#",
-                "aria-label": "Next"
-            }, React.createElement("span", {
-                "aria-hidden": "true"
-            }, "»")))));
+            }, this.makePagination()));
         }
     } ]);
     return Pagination;
