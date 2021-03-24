@@ -91,7 +91,7 @@ router.route('/users/:id').put((req, res) => {
       user.news = req.body.news;
 
       user.save()
-        .then(() => res.json('Utilisateur modifié avec success !'))
+        .then(() => res.json({message: 'Utilisateur modifié avec success !', photo: user.photo}))
         .catch(err => res.status(400).json('Error: ' + err));
     })
     .catch(err => res.status(400).json('Error: ' + err));
