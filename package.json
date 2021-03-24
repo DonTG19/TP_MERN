@@ -1,7 +1,7 @@
 {
   "name": "tp_mern",
   "private": true,
-  "version": "0.14.0",
+  "version": "0.20.0",
   "description": "EXAMEN TP | MERN STACK | 5ILTI | Master TIW | IGA Casablanca Maroc",
   "main": "/public/index.html",
   "scripts": {
