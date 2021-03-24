@@ -1,7 +1,6 @@
 class Mock extends React.Component{
     constructor(props){
         super(props);
-        this.state = {disabled: true};
 
         this.getRandomUsers = this.getRandomUsers.bind(this);
         this.handleErrors = this.handleErrors.bind(this);
@@ -9,25 +8,11 @@ class Mock extends React.Component{
         this.showUser = this.showUser.bind(this);
         this.printError = this.printError.bind(this);
         this.getFetchResponse = this.getFetchResponse.bind(this);
-        this.disableButton = this.disableButton.bind(this);
-    }
-
-    componentDidMount(){
-        this.disableButton();
-    }
-
-    disableButton(){
-        let totalUsers = this.props.numberOfUsers, add;
-        if(totalUsers < 5){
-            add = 5 - totalUsers;
-            this.setState({disabled: false});
-        }else{
-            this.setState({disabled: true});
-        }
     }
 
     getRandomUsers(){
-        fetch('https://randomuser.me/api/?inc=gender,email,login,picture,dob&results=2')
+        let add = 100 - this.props.numberOfUsers;
+        fetch('https://randomuser.me/api/?inc=gender,email,login,picture,dob&results=' + add)
         .then(this.handleErrors)
         .then(this.parseJSON)
         .then(this.showUser)
@@ -36,7 +21,7 @@ class Mock extends React.Component{
 
     handleErrors (res){
         if(!res.ok){
-            throw error(res.status);
+            throw new Error(res.status);
         }
         return res;
     }
@@ -52,7 +37,7 @@ class Mock extends React.Component{
                 username: result.login.username,
                 gender: result.gender,
                 dob: result.dob.date,
-                news: result.dob.age > 24,
+                news: result.dob.age > 50,
                 email: result.email,
                 photo: result.picture.medium
             };
@@ -65,7 +50,6 @@ class Mock extends React.Component{
         res = JSON.parse(res);
         console.log(res.message);
         this.props.onFetched(res.number);
-        this.disableButton();
     }
       
     printError (error){
@@ -75,8 +59,8 @@ class Mock extends React.Component{
     render(){
         return (
             <div id="mock">
-                <h4>{this.props.numberOfUsers} utilisateurs</h4>
-                <Button disabled={this.state.disabled} click={this.getRandomUsers} text="Fetch"/>
+                <h4>{this.props.numberOfUsers} utilisateur(s)</h4>
+                <Button disabled={this.props.disabled} click={this.getRandomUsers} text="Fetch"/>
             </div>
         );
     }
