@@ -10,15 +10,15 @@ class FilterBloc extends React.Component{
     }
 
     onNameChange(username){
-        this.setState({username}, function(){this.props.onFiltered(this.state)});
+        this.setState({username}, function(){this.props.onFiltered()});
     }
 
     onGenderChange(gender){
-        this.setState({gender}, function(){this.props.onFiltered(this.state)});
+        this.setState({gender}, function(){this.props.onFiltered()});
     }
 
     onDobChange(dob){
-        this.setState({dob}, function(){this.props.onFiltered(this.state)});
+        this.setState({dob}, function(){this.props.onFiltered()});
     }
 
     openModalAddUser(){
@@ -26,9 +26,10 @@ class FilterBloc extends React.Component{
     }
 
     render(){
+
         return (
             <aside>
-                <Mock numberOfUsers={this.props.numberOfUsers} onFetched={this.props.onFetched}/>
+                <Mock numberOfUsers={this.props.numberOfUsers} disabled={this.props.disabled} onFetched={this.props.onFetched}/>
                 <hr/>
                 <div>
                     <h4 id="label-search">Rechercher</h4>
