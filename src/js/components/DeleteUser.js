@@ -11,7 +11,7 @@ class DeleteUser extends React.Component{
     }
 
     getDeleteResponse(response){
-        console.log(response);
+        this.props.displayToast(response);
 
         this.props.onUserDeleted(this.props.id);
 
