@@ -48,12 +48,12 @@ class Mock extends React.Component{
 
     getFetchResponse(res){
         res = JSON.parse(res);
-        console.log(res.message);
+        this.props.displayToast(res.message);
         this.props.onFetched(res.number);
     }
       
     printError (error){
-        console.log(error);
+        this.props.displayToast(error);
     }
 
     render(){
