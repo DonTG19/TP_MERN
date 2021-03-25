@@ -5,6 +5,7 @@ class Main extends React.Component{
         this.modal = React.createRef();
         this.modalInfosUser = React.createRef();
         this.filterBloc = React.createRef();
+        this.toast = React.createRef();
 
         this.getUserListe = this.getUserListe.bind(this);
         this.displayNewUser = this.displayNewUser.bind(this);
@@ -19,6 +20,7 @@ class Main extends React.Component{
         this.onFiltered = this.onFiltered.bind(this);
         this.showInfosUserUI = this.showInfosUserUI.bind(this);
         this.onFetched = this.onFetched.bind(this);
+        this.displayToast = this.displayToast.bind(this);
     }
 
     componentDidMount(){
@@ -38,6 +40,10 @@ class Main extends React.Component{
 
     onFiltered(){
         this.requestForUsers();
+    }
+
+    displayToast(message){
+        this.toast.current.displayToast(message);
     }
 
     onFetched(rab){
@@ -140,6 +146,7 @@ class Main extends React.Component{
                         onFetched={this.onFetched} 
                         onFiltered={this.onFiltered}
                         ref={this.filterBloc} 
+                        displayToast={this.displayToast}
                     />
                     <UserList 
                         users={this.state.users} 
@@ -147,6 +154,7 @@ class Main extends React.Component{
                         updateUserUI={this.showUpdateUserUI} 
                         infosUserUI={this.showInfosUserUI}
                         onUserDeleted={this.removeUser}
+                        displayToast={this.displayToast}
                         onPaginate={this.requestForUsers}
                     />
                     <Modal
@@ -154,8 +162,10 @@ class Main extends React.Component{
                         onUserAdded={this.displayNewUser}
                         onUserUpdated={this.updateUser}
                         title="Modifier un utilisateur"
+                        displayToast={this.displayToast}
                     />
                     <ShowUser ref={this.modalInfosUser}/>
+                    <Toast ref={this.toast}/>
                 </div>
             </div>
         );
