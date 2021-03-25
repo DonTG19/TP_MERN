@@ -1,4 +1,4 @@
-function makeRequest(route, method, callBack, data = null) {
+function makeRequest(route, method, callBack, data = null, callBackError = null) {
     let httpRequest = new XMLHttpRequest();   
 
     httpRequest.onreadystatechange = function (){
@@ -6,7 +6,10 @@ function makeRequest(route, method, callBack, data = null) {
             if (httpRequest.status === 200) {
                 callBack(httpRequest.responseText);
             } else {
-                console.log('Il y a eu un problème avec la requête.');
+                if(callBackError != null)
+                    callBackError(httpRequest.responseText);
+                else
+                    console.log('Il y a eu un problème avec la requête.');
             }
         }
     };
