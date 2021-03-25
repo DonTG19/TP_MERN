@@ -29,7 +29,7 @@ class FilterBloc extends React.Component{
 
         return (
             <aside>
-                <Mock numberOfUsers={this.props.numberOfUsers} disabled={this.props.disabled} onFetched={this.props.onFetched}/>
+                <Mock numberOfUsers={this.props.numberOfUsers} displayToast={this.props.displayToast} disabled={this.props.disabled} onFetched={this.props.onFetched}/>
                 <hr/>
                 <div>
                     <h4 id="label-search">Rechercher</h4>
