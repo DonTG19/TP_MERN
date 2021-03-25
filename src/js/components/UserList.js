@@ -38,7 +38,7 @@ class UserList extends React.Component{
                         this.props.numberUser > 10 && 
                         <Pagination numberUser={this.props.numberUser} onPaginate={this.props.onPaginate}/>
                     }
-                    <DeleteUser id={this.state.idUser} onUserDeleted={this.props.onUserDeleted}/>
+                    <DeleteUser id={this.state.idUser} displayToast={this.props.displayToast} onUserDeleted={this.props.onUserDeleted}/>
                 </section>
                 :
                 <section></section>
