@@ -21,30 +21,36 @@ class Modal extends React.Component{
         this.getCreateResponse = this.getCreateResponse.bind(this);
         this.getUpdateResponse = this.getUpdateResponse.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.getAddUserError = this.getAddUserError.bind(this);
     }
 
     create(){
-        makeRequest('/users', 'POST', this.getCreateResponse, this.state);
+        makeRequest('/users', 'POST', this.getCreateResponse, this.state, this.getAddUserError);
     }
 
     update(){
-        makeRequest('/users/' + this.state._id, 'PUT', this.getUpdateResponse, this.state);
+        makeRequest('/users/' + this.state._id, 'PUT', this.getUpdateResponse, this.state, this.getAddUserError);
     }
 
     getCreateResponse(response){
         response = JSON.parse(response);
-        console.log(response.message);
         this.props.onUserAdded({
             _id: response.id,
             username: this.state.username,
             gender: this.state.gender
         });
         this.closeModal();
+        this.props.displayToast(response.message);
+    }
+
+    getAddUserError(response){
+        this.closeModal();
+        this.props.displayToast(response);
     }
 
     getUpdateResponse(resp){
         resp = JSON.parse(resp);
-        console.log(resp.message);
+        this.props.displayToast(resp.message);
         this.props.onUserUpdated({
             _id: this.state._id,
             username: this.state.username,
