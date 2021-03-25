@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         sass:{
             options: {
                 implementation: sass,
-                outputStyle: 'nested', 
+                outputStyle: 'compressed', 
                 sourceMap: false
             },
             build: {
@@ -61,9 +61,9 @@ module.exports = function(grunt) {
         },
         uglify:{
             options: {
-                mangle: false,
-                compress: false,
-                beautify: true
+                mangle: true,
+                compress: true,
+                beautify: false
             },
             app: {
                 src: 'public/js/script.js',

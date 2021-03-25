@@ -68,9 +68,12 @@ class Main extends React.Component{
         //let users = this.state.users;
         //users.unshift(user);
         this.setState(function(state){
+            let res = state.userNumber + 1;
+
             return {
                 //users,
-                userNumber: state.userNumber + 1
+                userNumber: res,
+                fetch: res >= 100
             }
         });
         this.showInfosUserUI(user._id);
